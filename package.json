@@ -1,0 +1,15 @@
+{
+  "name": "vs-utils",
+  "version": "0.0.1",
+  "description": "Visual Studio Project utilities",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Steven Weerdenburg",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "xml-parser": "^1.2.1"
+  }
+}
