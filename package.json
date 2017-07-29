@@ -1,12 +1,18 @@
 {
-  "name": "vs-utils",
+  "name": "vs-tools",
   "version": "0.0.1",
-  "description": "Visual Studio Project utilities",
+  "description": "Tools and utilities for working with Visual Studio projects",
+  "repository": "stevenaw/vs-tools",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Steven Weerdenburg",
+  "author": {
+    "name": "Steven Weerdenburg"
+  },
+  "engines": {
+    "node": ">=4"
+  },
   "license": "MIT",
   "dependencies": {
     "xml-parser": "^1.2.1"
