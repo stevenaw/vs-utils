@@ -1,8 +1,8 @@
 {
-  "name": "vs-tools",
-  "version": "0.0.1",
+  "name": "vs-utils",
+  "version": "0.0.2",
   "description": "Tools and utilities for working with Visual Studio projects",
-  "repository": "stevenaw/vs-tools",
+  "repository": "stevenaw/vs-utils",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
