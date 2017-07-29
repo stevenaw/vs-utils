@@ -2,7 +2,7 @@
   "name": "vs-utils",
   "version": "0.0.1",
   "description": "Visual Studio Project utilities",
-  "main": "test.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

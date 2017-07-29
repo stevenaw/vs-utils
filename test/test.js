@@ -1,5 +1,5 @@
-const utils = require('./src/lib.js');
-const csproj = require('./src/csproj.js');
+const utils = require('../src/lib.js');
+const csproj = require('../src/csproj.js');
 
 const determineNunitRunner = (version) => {
   const semver = utils.parseSemver(version);
