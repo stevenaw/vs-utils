@@ -1,8 +1,16 @@
 const fs = require('fs');
 const parse = require('xml-parser');
 
-const parseAssemblyReference = (assemblyNode) => {
-  const parts = assemblyNode.attributes.Include.split(/\, /g);
+const parseCodeFile = (node) => {
+  const fileName = node.attributes.Include;
+
+  return {
+    fileName
+  };
+};
+
+const parseAssemblyReference = (node) => {
+  const parts = node.attributes.Include.split(/\, /g);
 
   const result = {
     AssemblyName: parts[0],
@@ -31,36 +39,49 @@ const parseAssemblyReference = (assemblyNode) => {
   return result;
 };
 
-const parseProjectReferences = (projectXml) => {
-  return projectXml.root.children.reduce((sum, value) => {
-    if (value.name === 'ItemGroup') {
-      const references = value.children.filter(function(i) {
-        return i.name === 'Reference'
-      });
+const parseProject = (projectFile) => {
+  if (!fs.existsSync(projectFile)) {
+    throw new Error('File not found: ' + projectFile);
+  }
 
-      return sum.concat(references.map(parseAssemblyReference));
+  const input = fs.readFileSync(projectFile, { encoding: 'utf-8' });
+  const projectXml = parse(input);
+
+  return projectXml.root.children.reduce((projectData, directChild) => {
+    if (directChild.name === 'ItemGroup') {
+      const children = directChild.children;
+
+      // TODO: Sequential dynamic mapping instead of assuming all children are same
+      if (children && children.length) {
+        if (children[0].name === 'Reference') {
+          const refs = children.map(parseAssemblyReference);
+          projectData.references = projectData.references.concat(refs);
+        } else if (children[0].name === 'Compile') {
+          const refs = children.map(parseCodeFile);
+          projectData.codeFiles = projectData.codeFiles.concat(refs);
+        }
+      }
     }
 
-    return sum;
-  }, []);
+    return projectData;
+  }, {
+    references: [],
+    codeFiles: [],
+  });
 };
 
-const determineAssemblyVersion = (projectFile, assemblyName) => {
-  const input = fs.readFileSync(projectFile, { encoding: 'utf-8' });
-  const obj = parse(input);
-  const projectReferences = parseProjectReferences(obj);
-
-  const ref = projectReferences.find(ref => ref.AssemblyName === assemblyName);
+const determineAssemblyVersion = (projectData, assemblyName) => {
+  // TODO: Case-insensitive?
+  const ref = projectData.references.find(ref => ref.AssemblyName === assemblyName);
 
   if (ref) {
     return ref.Version;
   }
 
-  return undefined;
+  return null;
 };
 
 module.exports = {
-  parseAssemblyReference,
-  parseProjectReferences,
+  parseProject,
   determineAssemblyVersion,
 };

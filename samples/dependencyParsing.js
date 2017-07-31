@@ -25,14 +25,17 @@ const determineNunitExecutable = (version, arch) => {
 }
 
 
-let nunitVersion = csproj.determineAssemblyVersion('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj', 'nunit.framework');
+let projectData = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj');
+console.log(projectData);
+
+let nunitVersion = csproj.determineAssemblyVersion(projectData, 'nunit.framework');
 let runner = determineNunitRunner(nunitVersion);
 let executable = determineNunitExecutable(nunitVersion);
 
 console.log(`${runner}\\tools\\${executable}`);
 
-
-nunitVersion = csproj.determineAssemblyVersion('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj', 'nunit.framework');
+projectData = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj');
+nunitVersion = csproj.determineAssemblyVersion(projectData, 'nunit.framework');
 runner = determineNunitRunner(nunitVersion);
 executable = determineNunitExecutable(nunitVersion);
 
