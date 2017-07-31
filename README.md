@@ -30,7 +30,7 @@ console.log(versionInfo);
 */
 ```
 
-### csproj
+### project
 Project file parser and utility functions
 
 #### parseProject
@@ -39,7 +39,7 @@ Parses a project file
 ```js
 const vsUtils = require('vs-utils');
 
-const projectData = vsUtils.csproj.parseProject('./myTestFile.csproj');
+const projectData = vsUtils.project.parseProject('./myTestFile.csproj');
 
 console.log(projectData);
 /*
@@ -70,8 +70,8 @@ Determine assembly version of a project
 ```js
 const vsUtils = require('vs-utils');
 
-const projectData = vsUtils.csproj.parseProject('./myTestFile.csproj');
-const version = vsUtils.csproj.determineAssemblyVersion(projectData, 'Microsoft.VisualStudio.TestPlatform.TestFramework');
+const projectData = vsUtils.project.parseProject('./myTestFile.csproj');
+const version = vsUtils.project.determineAssemblyVersion(projectData, 'Microsoft.VisualStudio.TestPlatform.TestFramework');
 
 console.log(version);
 /*
