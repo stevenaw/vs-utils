@@ -261,6 +261,8 @@ __pycache__/
 *.pyc
 
 node_modules
+coverage
+.nyc_output
 test/data/**/packages
 test/data/**/bin
 test/data/**/obj
