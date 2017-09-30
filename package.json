@@ -5,7 +5,7 @@
   "repository": "stevenaw/vs-utils",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": {
     "name": "Steven Weerdenburg"
@@ -16,5 +16,9 @@
   "license": "MIT",
   "dependencies": {
     "xml-parser": "^1.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3"
   }
 }
