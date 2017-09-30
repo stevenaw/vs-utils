@@ -5,7 +5,7 @@
   "repository": "stevenaw/vs-utils",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc mocha --timeout=3000"
   },
   "author": {
     "name": "Steven Weerdenburg"
@@ -16,5 +16,11 @@
   "license": "MIT",
   "dependencies": {
     "xml-parser": "^1.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.5.3",
+    "nyc": "^11.2.1"
   }
 }
