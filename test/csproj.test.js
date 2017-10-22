@@ -15,6 +15,13 @@ describe('csproj', function() {
       assert.exists(projectData.references);
       assert.isArray(projectData.references);
     });
+
+    it('should have property "references"', function() {
+      let projectData = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj');
+
+      assert.exists(projectData.references);
+      assert.isArray(projectData.references);
+    });
   });
 
 });
