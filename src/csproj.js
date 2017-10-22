@@ -58,9 +58,7 @@ const parsePackages = (filePath) => {
       const package = {
         AssemblyName: packageNode.attributes.id,
         Version: packageNode.attributes.version,
-        Culture: undefined,
-        ProcessorArchitecture: undefined,
-        PublicKeyToken: undefined
+        TargetFramework: packageNode.attributes.targetFramework,
       };
 
       data.push(package);

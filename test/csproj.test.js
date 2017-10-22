@@ -45,9 +45,7 @@ describe('csproj', () => {
 
         assert.property(result[i], 'AssemblyName');
         assert.property(result[i], 'Version');
-        assert.property(result[i], 'Culture');
-        assert.property(result[i], 'ProcessorArchitecture');
-        assert.property(result[i], 'PublicKeyToken');   
+        assert.property(result[i], 'TargetFramework'); 
       }
     });
 
@@ -55,11 +53,9 @@ describe('csproj', () => {
       const result = csproj.parsePackages('./test/data/TestConsoleApplication/TestNUnit3/packages.config');
 
       for(let i=0; i < result.length; i++) {
-        assert.isString(result[i].AssemblyName, 'NUnit.ConsoleRunner');
-        assert.isString(result[i].Version, '3.7.0');
-        assert.isUndefined(result[i].Culture);
-        assert.isUndefined(result[i].ProcessorArchitecture);
-        assert.isUndefined(result[i].PublicKeyToken);
+        assert.isString(result[i].AssemblyName);
+        assert.isString(result[i].Version);
+        assert.isString(result[i].TargetFramework);
       }
     });
 
@@ -70,9 +66,7 @@ describe('csproj', () => {
 
       assert.equal(nunitConsoleRunner.AssemblyName, 'NUnit.ConsoleRunner');
       assert.equal(nunitConsoleRunner.Version, '3.7.0');
-      assert.equal(nunitConsoleRunner.Culture, undefined);
-      assert.equal(nunitConsoleRunner.ProcessorArchitecture, undefined);
-      assert.equal(nunitConsoleRunner.PublicKeyToken, undefined);  
+      assert.equal(nunitConsoleRunner.TargetFramework, 'net452');
     });
   });
 
