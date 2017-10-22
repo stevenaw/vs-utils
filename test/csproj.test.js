@@ -51,7 +51,19 @@ describe('csproj', () => {
       }
     });
 
-    it('should parse props correctly"', () => {
+    it('should parse supported props as expected"', () => {
+      const result = csproj.parsePackages('./test/data/TestConsoleApplication/TestNUnit3/packages.config');
+
+      for(let i=0; i < result.length; i++) {
+        assert.isString(result[i].AssemblyName, 'NUnit.ConsoleRunner');
+        assert.isString(result[i].Version, '3.7.0');
+        assert.isUndefined(result[i].Culture);
+        assert.isUndefined(result[i].ProcessorArchitecture);
+        assert.isUndefined(result[i].PublicKeyToken);
+      }
+    });
+
+    it('should parse sample lib correctly"', () => {
       const result = csproj.parsePackages('./test/data/TestConsoleApplication/TestNUnit3/packages.config');
 
       const nunitConsoleRunner = result[4];
