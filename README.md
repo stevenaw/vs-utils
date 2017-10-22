@@ -24,7 +24,6 @@ console.log(versionInfo);
     major: 1,
     minor: 2,
     patch: 3,
-    build: 4,
     version: 1.2.3
   }
 */
@@ -38,7 +37,6 @@ Parses a project file
 
 ```js
 const vsUtils = require('vs-utils');
-
 const projectData = vsUtils.project.parseProject('./myTestFile.csproj');
 
 console.log(projectData);

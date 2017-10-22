@@ -1,18 +1,36 @@
+const semverUtils = require('semver-utils');
+
+const nthIndexOfChar = (haystack, needle, n) => {
+  let count = 0;
+
+  for(let i = 0; i < haystack.length; i++) {
+    if(haystack[i] === needle) {
+      count++;
+    }
+
+    if(count === n) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
 const parseSemver = (versionString) => {
-  const semverParts = versionString.split(/\./g);
+  if(!versionString) {
+    return null;
+  }
 
-  const major = parseInt(semverParts[0], 10);
-  const minor = parseInt(semverParts[1], 10);
-  const patch = parseInt(semverParts[2], 10);
-  const build = parseInt(semverParts[3], 10);
+  const i = nthIndexOfChar(versionString, '.', 3);
+  const myVersionString = i === -1 ? versionString : versionString.substring(0, i);
+  const parsed = semverUtils.parse(myVersionString);
 
-  return {
-    major,
-    minor,
-    patch,
-    build,
-    version: `${major}.${minor}.${patch}`
-  };
+  return parsed ? {
+    major: parsed.major,
+    minor: parsed.minor,
+    patch: parsed.patch,
+    version: parsed.version
+  } : null;
 };
 
 

@@ -1,24 +1,33 @@
-var assert = require('chai').assert;
-var lib = require('../src/lib');
+const assert = require('chai').assert;
+const lib = require('../src/lib');
 
-describe('lib', function() {
+describe('lib', () => {
 
-  describe('#parseSemver()', function() {
-    var testCases = [
+  describe('#parseSemver()', () => {
+    const testCases = [
+      {input: null, output: null},
+      {input: undefined, output: null},
+      {input: '', output: null},
+      {input: ' ', output: null},
+      {input: 'null', output: null},
       {input: '1.2.3.4', output: '1.2.3'},
       {input: '1.2.3', output: '1.2.3'},
       {input: '1.2.0', output: '1.2.0'},
       {input: '1.0.0', output: '1.0.0'}
     ];
 
-    for(var i=0; i < testCases.length; i++) {
-      var testCase = testCases[i];
+    for(let i=0; i < testCases.length; i++) {
+      const testCase = testCases[i];
 
-      it(`should return ${testCase.output} when given ${testCase.input}`, function() {
-        var actualOutput = lib.parseSemver(testCase.input);
+      it(`should parse '${testCase.input}' as '${testCase.output}'`, () => {
+        const actualOutput = lib.parseSemver(testCase.input);
 
-        assert.isObject(actualOutput);
-        assert.equal(actualOutput.version, testCase.output);
+        if(actualOutput) {
+          assert.isObject(actualOutput);
+          assert.equal(actualOutput.version, testCase.output);
+        } else {
+          assert.equal(actualOutput, testCase.output);
+        }
       });
     }
   });
