@@ -21,10 +21,10 @@ console.log(versionInfo);
  Outputs:
 
  {
-    major: 1,
-    minor: 2,
-    patch: 3,
-    version: 1.2.3
+    major: '1',
+    minor: '2',
+    patch: '3',
+    version: '1.2.3'
   }
 */
 ```
