@@ -39,15 +39,41 @@ const parseAssemblyReference = (node) => {
   return result;
 };
 
-const parseProject = (projectFile) => {
-  if (!fs.existsSync(projectFile)) {
-    throw new Error('File not found: ' + projectFile);
+const getXmlContentsOrFailSync = (file) => {
+  if (!fs.existsSync(file)) {
+    throw new Error('File not found: ' + file);
   }
 
-  const input = fs.readFileSync(projectFile, { encoding: 'utf-8' });
-  const projectXml = parse(input);
+  const input = fs.readFileSync(file, { encoding: 'utf-8' });
+  const xml = parse(input);
 
-  return projectXml.root.children.reduce((projectData, directChild) => {
+  return xml;
+}
+
+const parsePackages = (filePath) => {
+  const xml = getXmlContentsOrFailSync(filePath);
+
+  return xml.root.children.reduce((data, packageNode) => {
+    if (packageNode.name === 'package') {
+      const package = {
+        AssemblyName: packageNode.attributes.id,
+        Version: packageNode.attributes.version,
+        Culture: undefined,
+        ProcessorArchitecture: undefined,
+        PublicKeyToken: undefined
+      };
+
+      data.push(package);
+    }
+
+    return data;
+  }, []);
+};
+
+const parseProject = (filePath) => {
+  const xml = getXmlContentsOrFailSync(filePath);
+
+  return xml.root.children.reduce((projectData, directChild) => {
     if (directChild.name === 'ItemGroup') {
       const children = directChild.children;
 
@@ -84,4 +110,5 @@ const determineAssemblyVersion = (projectData, assemblyName) => {
 module.exports = {
   parseProject,
   determineAssemblyVersion,
+  parsePackages,
 };
