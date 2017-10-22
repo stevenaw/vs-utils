@@ -10,6 +10,7 @@ describe('lib', () => {
       {input: '', output: null},
       {input: ' ', output: null},
       {input: 'null', output: null},
+      {input: '1.2', output: null},
       {input: '1.2.3.4', output: '1.2.3'},
       {input: '1.2.3', output: '1.2.3'},
       {input: '1.2.0', output: '1.2.0'},

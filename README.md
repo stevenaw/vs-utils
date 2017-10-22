@@ -8,7 +8,7 @@ Node-based utilities for working with Visual Studio projects/solutions.
 Support functions
 
 #### parseSemver
-A very simple semver parser
+A very simple semver parser. Mostly a wrapper over standardized tools, with support for .NET-specific assembly versioning.
 
 ```js
 const vsUtils = require('vs-utils');
@@ -33,7 +33,7 @@ console.log(versionInfo);
 Project file parser and utility functions
 
 #### parseProject
-Parses a project file
+Parses a project file.
 
 ```js
 const vsUtils = require('vs-utils');
@@ -59,6 +59,27 @@ console.log(projectData);
       }
     ]
   }
+*/
+``` 
+
+#### parsePackages
+Parses a nuget package file.
+
+```js
+const vsUtils = require('vs-utils');
+const packages = vsUtils.project.parsePackages('./packages.config');
+
+console.log(packages);
+/*
+  Outputs:
+
+  [
+    {
+      Name: 'NUnit.ConsoleRunner',
+      Version: '14.0.0',
+      TargetFramework: 'net452',
+    }
+  ]
 */
 ``` 
 

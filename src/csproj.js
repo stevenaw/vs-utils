@@ -56,7 +56,7 @@ const parsePackages = (filePath) => {
   return xml.root.children.reduce((data, packageNode) => {
     if (packageNode.name === 'package') {
       const package = {
-        AssemblyName: packageNode.attributes.id,
+        Name: packageNode.attributes.id,
         Version: packageNode.attributes.version,
         TargetFramework: packageNode.attributes.targetFramework,
       };

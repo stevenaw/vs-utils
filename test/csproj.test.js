@@ -43,7 +43,7 @@ describe('csproj', () => {
       for(let i=0; i < result.length; i++) {
         assert.isObject(result[i]);
 
-        assert.property(result[i], 'AssemblyName');
+        assert.property(result[i], 'Name');
         assert.property(result[i], 'Version');
         assert.property(result[i], 'TargetFramework'); 
       }
@@ -53,7 +53,7 @@ describe('csproj', () => {
       const result = csproj.parsePackages('./test/data/TestConsoleApplication/TestNUnit3/packages.config');
 
       for(let i=0; i < result.length; i++) {
-        assert.isString(result[i].AssemblyName);
+        assert.isString(result[i].Name);
         assert.isString(result[i].Version);
         assert.isString(result[i].TargetFramework);
       }
@@ -64,7 +64,7 @@ describe('csproj', () => {
 
       const nunitConsoleRunner = result[4];
 
-      assert.equal(nunitConsoleRunner.AssemblyName, 'NUnit.ConsoleRunner');
+      assert.equal(nunitConsoleRunner.Name, 'NUnit.ConsoleRunner');
       assert.equal(nunitConsoleRunner.Version, '3.7.0');
       assert.equal(nunitConsoleRunner.TargetFramework, 'net452');
     });
