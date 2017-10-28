@@ -4,7 +4,7 @@ const csproj = require('../src/csproj.js');
 const determineNunitRunner = (version) => {
   const semver = utils.parseSemver(version);
 
-  if(parseInt(semver.major) < 3) {
+  if(parseInt(semver.major, 10) < 3) {
     return `NUnit.Runners.${semver.version}`;
   } else {
     return `NUnit.ConsoleRunner.${semver.version}`;
@@ -15,7 +15,7 @@ const determineNunitRunner = (version) => {
 const determineNunitExecutable = (version, arch) => {
   const semver = utils.parseSemver(version);
 
-  if(parseInt(semver.major) < 3) {
+  if(parseInt(semver.major, 10) < 3) {
     const archFlag = arch === 'X86' ? '-x86' : '';
     return `nunit-console${archFlag}.exe`;
   } else {
