@@ -1,5 +1,6 @@
 const fs = require('fs');
 const parse = require('xml-parser');
+const path = require('path');
 
 const parseCodeFile = (node) => {
   const fileName = node.attributes.Include;
@@ -13,11 +14,11 @@ const parseAssemblyReference = (node) => {
   const parts = node.attributes.Include.split(/\, /g);
 
   const result = {
-    AssemblyName: parts[0],
-    Version: undefined,
-    Culture: undefined,
-    ProcessorArchitecture: undefined,
-    PublicKeyToken: undefined
+    assemblyName: parts[0],
+    version: undefined,
+    culture: undefined,
+    processorArchitecture: undefined,
+    publicKeyToken: undefined
   };
 
   for(let i = 1; i < parts.length; i++) {
@@ -25,13 +26,13 @@ const parseAssemblyReference = (node) => {
 
     if(asmPartKeyValue.length === 2) {
       if(asmPartKeyValue[0] === 'Version') {
-        result.Version = asmPartKeyValue[1];
+        result.version = asmPartKeyValue[1];
       } else if(asmPartKeyValue[0] === 'Culture') {
-        result.Culture = asmPartKeyValue[1];
+        result.culture = asmPartKeyValue[1];
       } else if(asmPartKeyValue[0] === 'processorArchitecture') {
-        result.ProcessorArchitecture = asmPartKeyValue[1];
+        result.processorArchitecture = asmPartKeyValue[1];
       } else if(asmPartKeyValue[0] === 'PublicKeyToken') {
-        result.PublicKeyToken = asmPartKeyValue[1];
+        result.publicKeyToken = asmPartKeyValue[1];
       }
     }
   }
@@ -56,9 +57,9 @@ const parsePackages = (filePath) => {
   return xml.root.children.reduce((data, packageNode) => {
     if (packageNode.name === 'package') {
       const package = {
-        Name: packageNode.attributes.id,
-        Version: packageNode.attributes.version,
-        TargetFramework: packageNode.attributes.targetFramework,
+        name: packageNode.attributes.id,
+        version: packageNode.attributes.version,
+        targetFramework: packageNode.attributes.targetFramework,
       };
 
       data.push(package);
@@ -68,10 +69,10 @@ const parsePackages = (filePath) => {
   }, []);
 };
 
-const parseProject = (filePath) => {
+const parseProject = (filePath, options = {}) => {
   const xml = getXmlContentsOrFailSync(filePath);
 
-  return xml.root.children.reduce((projectData, directChild) => {
+  const result = xml.root.children.reduce((projectData, directChild) => {
     if (directChild.name === 'ItemGroup') {
       const children = directChild.children;
 
@@ -91,22 +92,21 @@ const parseProject = (filePath) => {
   }, {
     references: [],
     codeFiles: [],
+    packages: [],
   });
-};
 
-const determineAssemblyVersion = (projectData, assemblyName) => {
-  // TODO: Case-insensitive?
-  const ref = projectData.references.find(ref => ref.AssemblyName === assemblyName);
+  if(options.deepParse) {
+    const projDir = path.dirname(filePath);
+    const packagesLocation = path.resolve(projDir, 'packages.config');
 
-  if (ref) {
-    return ref.Version;
+    let packages = fs.existsSync(packagesLocation) && parsePackages(packagesLocation);
+    result.packages = packages || [];
   }
 
-  return null;
+  return result;
 };
 
 module.exports = {
   parseProject,
-  determineAssemblyVersion,
   parsePackages,
 };

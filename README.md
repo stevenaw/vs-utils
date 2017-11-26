@@ -26,20 +26,60 @@ console.log(solutionData);
   {
     projects: [
       {
-        Id: '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF',
-        Name: 'TestNUnit3',
-        Path: 'TestNUnit3\\TestNUnit3.csproj',
-        ProjectTypeId: 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC',
+        id: '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF',
+        name: 'TestNUnit3',
+        path: 'TestNUnit3\\TestNUnit3.csproj',
+        projectTypeId: 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC',
       }
     ]
   }
 */
 ``` 
 
-##### Options
-An optional `options` argument can be provided to control behaviour:
+A full parse of a solution and all its dependencies can be done by passing the [`deepParse` option](#deep-parse). This will force the parser to enumerate and parse all dependent projects (as well as their dependencies).
 
-`deepParse` - Specifying `true` will also read and parse each project file and include it in the results as a `Data` property.
+Example:
+```js
+const vsUtils = require('vs-utils');
+const solutionData = vsUtils.solution.parseSolution('HelloWorld.sln' { deepParse: true });
+
+console.log(solutionData);
+/*
+  Outputs:
+
+  {
+    projects: [
+      {
+        id: '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF',
+        name: 'TestNUnit3',
+        path: 'TestNUnit3\\TestNUnit3.csproj',
+        projectTypeId: 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC',
+        codeFiles: [
+          {
+            fileName: 'MyFile.cs'
+          }
+        ],
+        packages: [
+          {
+            name: 'NUnit.ConsoleRunner',
+            version: '3.7.0',
+            targetFramework: 'net45'  
+          }
+        ],
+        references: [
+          {
+            assemblyName: 'NUnit.ConsoleRunner',
+            version: '3.7.1.0',
+            culture: 'neutral',
+            processorArchitecture: 'MSIL',
+            publicKeyToken: 'b035f5f7f11d50a3a'
+          }
+        ],
+      }
+    ]
+  }
+*/
+``` 
 
 ### project
 Project file parser and utility functions
@@ -47,6 +87,11 @@ Project file parser and utility functions
 #### parseProject
 Parses a project file.
 
+```js
+const parseProject = (filePath, options = {})
+```
+
+Example:
 ```js
 const vsUtils = require('vs-utils');
 const projectData = vsUtils.project.parseProject('./myTestFile.csproj');
@@ -56,15 +101,15 @@ console.log(projectData);
   Outputs:
 
   {
- 	  references: [
+    references: [
       {
-        AssemblyName: 'Microsoft.VisualStudio.TestPlatform.TestFramework',
-        Version: '14.0.0.0',
-        Culture: 'neutral',
-        ProcessorArchitecture: 'MSIL',
-        PublicKeyToken: 'b03f5f7f11d50a3a'
+        assemblyName: 'Microsoft.VisualStudio.TestPlatform.TestFramework',
+        version: '14.0.0.0',
+        culture: 'neutral',
+        processorArchitecture: 'MSIL',
+        publicKeyToken: 'b03f5f7f11d50a3a'
       }
-  	],
+    ],
     codeFiles: [
       {
         fileName: 'Class1.cs'
@@ -73,6 +118,43 @@ console.log(projectData);
   }
 */
 ``` 
+
+A full parse of a project and all its dependencies can be done by passing the [`deepParse` option](#deep-parse). This will force the parser to enumerate and parse all packages.
+
+Example:
+```js
+const vsUtils = require('vs-utils');
+const projectData = vsUtils.project.parseProject('./myTestFile.csproj', { deepParse: true });
+
+console.log(projectData);
+/*
+  Outputs:
+
+  {
+    references: [
+      {
+        assemblyName: 'Microsoft.VisualStudio.TestPlatform.TestFramework',
+        version: '14.0.0.0',
+        culture: 'neutral',
+        processorArchitecture: 'MSIL',
+        publicKeyToken: 'b03f5f7f11d50a3a'
+      }
+    ],
+    codeFiles: [
+      {
+        fileName: 'Class1.cs'
+      }
+    ],
+    packages: [
+      {
+        name: 'NUnit.ConsoleRunner',
+        version: '14.0.0',
+        targetFramework: 'net452',
+      }
+    ]
+  }
+*/
+```
 
 #### parsePackages
 Parses a nuget package file.
@@ -87,28 +169,11 @@ console.log(packages);
 
   [
     {
-      Name: 'NUnit.ConsoleRunner',
-      Version: '14.0.0',
-      TargetFramework: 'net452',
+      name: 'NUnit.ConsoleRunner',
+      version: '14.0.0',
+      targetFramework: 'net452',
     }
   ]
-*/
-``` 
-
-#### determineAssemblyVersion
-Determine assembly version of a project
-
-```js
-const vsUtils = require('vs-utils');
-
-const projectData = vsUtils.project.parseProject('./myTestFile.csproj');
-const version = vsUtils.project.determineAssemblyVersion(projectData, 'Microsoft.VisualStudio.TestPlatform.TestFramework');
-
-console.log(version);
-/*
-  Outputs:
-
-  '14.0.0.0'
 */
 ``` 
 
@@ -136,3 +201,11 @@ console.log(versionInfo);
   }
 */
 ```
+
+## Module Parser Options
+An `options` object can be passed to a parsing function to customize its behaviour.
+
+#### Deep Parse
+`deepParse` - Specifying `true` will also read and parse all dependencies. Defaults to `false`.
+
+Example: A solution is dependent on its projects, while a project is dependent on its pacakges.
