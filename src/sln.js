@@ -21,7 +21,7 @@ const parseSolutionProject = (lineOfText) => {
       Id: result[4],
       Name: result[2],
       Path: result[3],
-      LanguageId: result[1],
+      ProjectTypeId: result[1],
     }
   }
 };

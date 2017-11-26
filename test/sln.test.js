@@ -32,7 +32,7 @@ describe('sln', () => {
         for(let i=0; i < result.length; i++) {
           assert.isObject(result[i]);
 
-          assert.property(result[i], 'LanguageId');
+          assert.property(result[i], 'ProjectTypeId');
           assert.property(result[i], 'Name');
           assert.property(result[i], 'Path');
           assert.property(result[i], 'Id');
@@ -43,7 +43,7 @@ describe('sln', () => {
         const result = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
 
         for(let i=0; i < result.length; i++) {
-          assert.isString(result[i].LanguageId);
+          assert.isString(result[i].ProjectTypeId);
           assert.isString(result[i].Name);
           assert.isString(result[i].Path);
           assert.isString(result[i].Id);
@@ -58,7 +58,7 @@ describe('sln', () => {
         assert.equal(sampleProject.Id, '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF');
         assert.equal(sampleProject.Name, 'TestNUnit3');
         assert.equal(sampleProject.Path, 'TestNUnit3\\TestNUnit3.csproj');
-        assert.equal(sampleProject.LanguageId, 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC');
+        assert.equal(sampleProject.ProjectTypeId, 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC');
       });
 
       it('should shallow parse when no options', () => {

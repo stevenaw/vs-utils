@@ -29,7 +29,7 @@ console.log(solutionData);
         Id: '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF',
         Name: 'TestNUnit3',
         Path: 'TestNUnit3\\TestNUnit3.csproj',
-        LanguageId: 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC',
+        ProjectTypeId: 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC',
       }
     ]
   }
