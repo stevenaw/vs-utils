@@ -21,13 +21,13 @@ describe('csproj', () => {
       assert.throws(() => csproj.parsePackages('NOPE'));
     });
 
-    it('should return array"', () => {
+    it('should return array', () => {
       const result = csproj.parsePackages('./test/data/TestConsoleApplication/TestNUnit3/packages.config');
 
       assert.isArray(result);
     });
 
-    it('should have expected length"', () => {
+    it('should have expected length', () => {
       const result = csproj.parsePackages('./test/data/TestConsoleApplication/TestNUnit3/packages.config');
 
       assert.equal(result.length, 10);
@@ -37,7 +37,7 @@ describe('csproj', () => {
       }
     });
 
-    it('should be array of correct shape"', () => {
+    it('should be array of correct shape', () => {
       const result = csproj.parsePackages('./test/data/TestConsoleApplication/TestNUnit3/packages.config');
 
       for(let i=0; i < result.length; i++) {
@@ -49,7 +49,7 @@ describe('csproj', () => {
       }
     });
 
-    it('should parse supported props as expected"', () => {
+    it('should parse supported props as expected', () => {
       const result = csproj.parsePackages('./test/data/TestConsoleApplication/TestNUnit3/packages.config');
 
       for(let i=0; i < result.length; i++) {
@@ -59,7 +59,7 @@ describe('csproj', () => {
       }
     });
 
-    it('should parse sample lib correctly"', () => {
+    it('should parse sample lib correctly', () => {
       const result = csproj.parsePackages('./test/data/TestConsoleApplication/TestNUnit3/packages.config');
 
       const nunitConsoleRunner = result[4];
