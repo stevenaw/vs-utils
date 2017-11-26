@@ -3,7 +3,7 @@ const project = require('./src/csproj.js');
 const solution = require('./src/sln.js');
 
 module.exports = {
-	lib,
-	project,
+  lib,
+  project,
   solution,
 };
