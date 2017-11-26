@@ -7,7 +7,9 @@
   "license": "MIT",
   "scripts": {
     "test": "nyc mocha --timeout=3000",
-    "demo": "node samples/dependencyParsing"
+    "demo": "node samples/dependencyParsing",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags"
   },
   "author": {
     "name": "Steven Weerdenburg"
