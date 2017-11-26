@@ -18,10 +18,10 @@ const parseSolutionProject = (lineOfText) => {
 
   if (result) {
     return {
-      Id: result[4],
-      Name: result[2],
-      Path: result[3],
-      ProjectTypeId: result[1],
+      id: result[4],
+      name: result[2],
+      relativePath: result[3],
+      projectTypeId: result[1],
     }
   }
 };
@@ -48,13 +48,13 @@ const parseSolution = (filePath, options = {}) => {
     for(let i = 0; i < returnValue.projects.length; i++) {
       const project = returnValue.projects[i];
 
-      if(project && project.Path) {
+      if(project && project.relativePath) {
         const slnDir = path.dirname(filePath);
-        const projectLocation = path.resolve(slnDir, project.Path);
-        const projectData = csproj.parseProject(projectLocation);
+        const projectLocation = path.resolve(slnDir, project.relativePath);
+        const projectData = csproj.parseProject(projectLocation, options);
 
         if(projectData) {
-          returnValue.projects[i].Data = projectData;
+          returnValue.projects[i] = Object.assign({}, project, projectData);
         }
       }
     }

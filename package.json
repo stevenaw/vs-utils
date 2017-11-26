@@ -4,8 +4,10 @@
   "description": "Tools and utilities for working with Visual Studio projects",
   "repository": "stevenaw/vs-utils",
   "main": "index.js",
+  "license": "MIT",
   "scripts": {
-    "test": "nyc mocha --timeout=3000"
+    "test": "nyc mocha --timeout=3000",
+    "demo": "node samples/dependencyParsing"
   },
   "author": {
     "name": "Steven Weerdenburg"
@@ -13,7 +15,6 @@
   "engines": {
     "node": ">=4"
   },
-  "license": "MIT",
   "dependencies": {
     "semver-utils": "^1.1.1",
     "xml-parser": "^1.2.1"
