@@ -208,4 +208,4 @@ An `options` object can be passed to a parsing function to customize its behavio
 #### Deep Parse
 `deepParse` - Specifying `true` will also read and parse all dependencies. Defaults to `false`.
 
-Example: A solution is dependent on its projects, while a project is dependent on its pacakges.
+Example: A solution is dependent on its projects, while a project is dependent on its packages.
