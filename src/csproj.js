@@ -1,6 +1,7 @@
 const fs = require('fs');
-const parse = require('xml-parser');
+const parseXml = require('xml-parser');
 const path = require('path');
+const helpers = require('./internal');
 
 const parseCodeFile = (node) => {
   const fileName = node.attributes.Include;
@@ -40,19 +41,10 @@ const parseAssemblyReference = (node) => {
   return result;
 };
 
-const getXmlContentsOrFailSync = (file) => {
-  if (!fs.existsSync(file)) {
-    throw new Error('File not found: ' + file);
-  }
-
-  const input = fs.readFileSync(file, { encoding: 'utf-8' });
-  const xml = parse(input);
-
-  return xml;
-}
 
 const parsePackages = (filePath) => {
-  const xml = getXmlContentsOrFailSync(filePath);
+  const contents = helpers.getFileContentsOrFailSync(filePath);
+  const xml = parseXml(contents);
 
   return xml.root.children.reduce((data, packageNode) => {
     if (packageNode.name === 'package') {
@@ -70,7 +62,8 @@ const parsePackages = (filePath) => {
 };
 
 const parseProject = (filePath, options = {}) => {
-  const xml = getXmlContentsOrFailSync(filePath);
+  const contents = helpers.getFileContentsOrFailSync(filePath);
+  const xml = parseXml(contents);
 
   const result = xml.root.children.reduce((projectData, directChild) => {
     if (directChild.name === 'ItemGroup') {
@@ -97,9 +90,9 @@ const parseProject = (filePath, options = {}) => {
 
   if(options.deepParse) {
     const projDir = path.dirname(filePath);
-    const packagesLocation = path.resolve(projDir, 'packages.config');
+    const packagesLocation = path.join(projDir, 'packages.config');
 
-    let packages = fs.existsSync(packagesLocation) && parsePackages(packagesLocation);
+    let packages = helpers.fileExistsSync(packagesLocation) && parsePackages(packagesLocation);
     result.packages = packages || [];
   }
 

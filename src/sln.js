@@ -1,16 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const csproj = require('./csproj');
-
-const getFileContentsOrFailSync = (file) => {
-  if (!fs.existsSync(file)) {
-    throw new Error('File not found: ' + file);
-  }
-
-  const input = fs.readFileSync(file, { encoding: 'utf-8' });
-
-  return input;
-};
+const helpers = require('./internal');
 
 const parseSolutionProject = (lineOfText) => {
   const projectRegex = /^Project\("\{([A-Z0-9]{8}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{12})\}"\) = "([^"]+)", "([^"]+)", "\{([A-Z0-9]{8}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{12})\}"/;
@@ -27,8 +18,8 @@ const parseSolutionProject = (lineOfText) => {
 };
 
 const parseSolution = (filePath, options = {}) => {
-  const text = getFileContentsOrFailSync(filePath);
-  const lines = text.replace(/\r\n/g, '\n').split('\n');
+  const contents = helpers.getFileContentsOrFailSync(filePath);
+  const lines = contents.replace(/\r\n/g, '\n').split('\n');
 
   const returnValue = {
     projects: []
@@ -50,11 +41,14 @@ const parseSolution = (filePath, options = {}) => {
 
       if(project && project.relativePath) {
         const slnDir = path.dirname(filePath);
-        const projectLocation = path.resolve(slnDir, project.relativePath);
-        const projectData = csproj.parseProject(projectLocation, options);
+        const projectLocation = path.join(slnDir, project.relativePath);
 
-        if(projectData) {
-          returnValue.projects[i] = Object.assign({}, project, projectData);
+        if(helpers.fileExistsSync(projectLocation)) {
+          const projectData = csproj.parseProject(projectLocation, options);
+
+          if(projectData) {
+            returnValue.projects[i] = Object.assign({}, project, projectData);
+          }
         }
       }
     }

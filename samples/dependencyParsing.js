@@ -25,7 +25,7 @@ const determineNunitExecutable = (version, arch) => {
 
 const determinePackageVersions = (solutionData, packageName) => {
   const result = solutionData.projects.reduce((result, project) => {
-    const package = project.packages.find(ref => ref.name === packageName);
+    const package = project.packages && project.packages.find(ref => ref.name === packageName);
 
     if(package && result.indexOf(package.version) === -1) {
       result.push(package.version);

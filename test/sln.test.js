@@ -19,7 +19,7 @@ describe('sln', () => {
       it('should have expected length', () => {
         const result = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
 
-        assert.equal(result.length, 4);
+        assert.equal(result.length, 6);
 
         for(let i=0; i < result.length; i++) {
           assert.isObject(result[i]);
@@ -52,7 +52,6 @@ describe('sln', () => {
 
       it('should parse sample lib correctly', () => {
         const result = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
-
         const sampleProject = result[1];
 
         assert.equal(sampleProject.id, '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF');
@@ -87,9 +86,11 @@ describe('sln', () => {
         const result = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln', parseOptions).projects;
 
         for(let i=0; i < result.length; i++) {
-          assert.property(result[i], 'references');
-          assert.property(result[i], 'codeFiles');
-          assert.property(result[i], 'packages');
+          if(result[i].name !== 'SolutionItems' && result[i].name !== 'nuget') {
+            assert.property(result[i], 'references');
+            assert.property(result[i], 'codeFiles');
+            assert.property(result[i], 'packages');
+          }
         }
       });
     });
