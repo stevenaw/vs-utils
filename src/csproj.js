@@ -13,13 +13,15 @@ const parseCodeFile = (node) => {
 
 const parseAssemblyReference = (node) => {
   const parts = node.attributes.Include.split(/\, /g);
+  const hintPathNode = node.children && node.children[0];
 
   const result = {
     assemblyName: parts[0],
     version: undefined,
     culture: undefined,
     processorArchitecture: undefined,
-    publicKeyToken: undefined
+    publicKeyToken: undefined,
+    hintPath: undefined,
   };
 
   for(let i = 1; i < parts.length; i++) {
@@ -36,6 +38,10 @@ const parseAssemblyReference = (node) => {
         result.publicKeyToken = asmPartKeyValue[1];
       }
     }
+  }
+
+  if(hintPathNode && hintPathNode.name === 'HintPath' && hintPathNode.content) {
+    result.hintPath = hintPathNode.content;
   }
 
   return result;

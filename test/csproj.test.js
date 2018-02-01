@@ -14,6 +14,52 @@ describe('csproj', () => {
       assert.exists(projectData.references);
       assert.isArray(projectData.references);
     });
+
+    it('should be array of correct shape', () => {
+      const result = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj').references;
+
+      for(let i=0; i < result.length; i++) {
+        assert.isObject(result[i]);
+
+        assert.property(result[i], 'assemblyName');
+        assert.property(result[i], 'version');
+        assert.property(result[i], 'culture');
+        assert.property(result[i], 'processorArchitecture');
+        assert.property(result[i], 'publicKeyToken');
+        assert.property(result[i], 'hintPath');
+      }
+    });
+
+    it('should parse required props as expected', () => {
+      const result = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj').references;
+
+      for(let i=0; i < result.length; i++) {
+        assert.isString(result[i].assemblyName);
+      }
+    });
+
+    it('should parse optional props as expected', () => {
+      const result = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj').references;
+      const targetReference = result[2];
+
+      assert.isString(targetReference.version);
+      assert.isString(targetReference.culture);
+      assert.isString(targetReference.processorArchitecture);
+      assert.isString(targetReference.publicKeyToken);
+      assert.isString(targetReference.hintPath);
+    });
+
+    it('should parse sample lib correctly', () => {
+      const result = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj').references;
+      const targetReference = result[2];
+
+      assert.equal(targetReference.assemblyName, 'nunit.framework');
+      assert.equal(targetReference.version, '3.7.1.0');
+      assert.equal(targetReference.culture, 'neutral');
+      assert.equal(targetReference.processorArchitecture, 'MSIL');
+      assert.equal(targetReference.publicKeyToken, '2638cd05610744eb');
+      assert.equal(targetReference.hintPath, '..\\packages\\NUnit.3.7.1\\lib\\net45\\nunit.framework.dll');
+    });
   });
 
   describe('#parsePackages()', () => {
@@ -45,7 +91,7 @@ describe('csproj', () => {
 
         assert.property(result[i], 'name');
         assert.property(result[i], 'version');
-        assert.property(result[i], 'targetFramework'); 
+        assert.property(result[i], 'targetFramework');
       }
     });
 
