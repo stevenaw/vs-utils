@@ -38,6 +38,21 @@ describe('sln', () => {
       });
     });
 
+    describe('#parseSolution().minimumVisualStudioVersion', () => {
+      it('should have property "minimumVisualStudioVersion"', () => {
+        const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+
+        assert.exists(solutionData.minimumVisualStudioVersion);
+        assert.isString(solutionData.minimumVisualStudioVersion);
+      });
+
+      it('should parse property "minimumVisualStudioVersion" correctly', () => {
+        const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+
+        assert.equal(solutionData.minimumVisualStudioVersion, '10.0.40219.1');
+      });
+    });
+
     describe('#parseSolution().projects', () => {
       it('should have property "projects"', () => {
         const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');

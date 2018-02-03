@@ -3,7 +3,14 @@ const path = require('path');
 const csproj = require('./csproj');
 const helpers = require('./internal');
 
-const parseVisualStudioVersionInfo = (lineOfText) => {
+const parseMinimumVisualStudioVersion = (lineOfText) => {
+  const regex = /^MinimumVisualStudioVersion = (\d+(\.\d+){3})/;
+  const result = regex.exec(lineOfText);
+
+  return result && result[1];
+};
+
+const parseVisualStudioVersion = (lineOfText) => {
   const regex = /^VisualStudioVersion = (\d+(\.\d+){3})/;
   const result = regex.exec(lineOfText);
 
@@ -38,6 +45,7 @@ const parseSolution = (filePath, options = {}) => {
   const returnValue = {
     fileFormatVersion: undefined,
     visualStudioVersion: undefined,
+    minimumVisualStudioVersion: undefined,
     projects: []
   };
 
@@ -51,10 +59,15 @@ const parseSolution = (filePath, options = {}) => {
     if(fileFormatVersion) {
       returnValue.fileFormatVersion = fileFormatVersion;
     }
-    
-    const visualStudioVersion = parseVisualStudioVersionInfo(lines[i]);
+
+    const visualStudioVersion = parseVisualStudioVersion(lines[i]);
     if(visualStudioVersion) {
       returnValue.visualStudioVersion = visualStudioVersion;
+    }
+    
+    const minimumVisualStudioVersion = parseMinimumVisualStudioVersion(lines[i]);
+    if(minimumVisualStudioVersion) {
+      returnValue.minimumVisualStudioVersion = minimumVisualStudioVersion;
     }
   }
 
