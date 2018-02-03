@@ -23,6 +23,21 @@ describe('sln', () => {
       });
     });
 
+    describe('#parseSolution().visualStudioVersion', () => {
+      it('should have property "visualStudioVersion"', () => {
+        const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+
+        assert.exists(solutionData.visualStudioVersion);
+        assert.isString(solutionData.visualStudioVersion);
+      });
+
+      it('should parse property "visualStudioVersion" correctly', () => {
+        const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+
+        assert.equal(solutionData.visualStudioVersion, '15.0.27004.2009');
+      });
+    });
+
     describe('#parseSolution().projects', () => {
       it('should have property "projects"', () => {
         const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');

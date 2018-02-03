@@ -3,6 +3,13 @@ const path = require('path');
 const csproj = require('./csproj');
 const helpers = require('./internal');
 
+const parseVisualStudioVersionInfo = (lineOfText) => {
+  const regex = /^VisualStudioVersion = (\d+(\.\d+){3})/;
+  const result = regex.exec(lineOfText);
+
+  return result && result[1];
+};
+
 const parseFileFormatVersion = (lineOfText) => {
   const regex = /^Microsoft Visual Studio Solution File, Format Version (\d+\.\d+)/;
   const result = regex.exec(lineOfText);
@@ -30,6 +37,7 @@ const parseSolution = (filePath, options = {}) => {
 
   const returnValue = {
     fileFormatVersion: undefined,
+    visualStudioVersion: undefined,
     projects: []
   };
 
@@ -42,6 +50,11 @@ const parseSolution = (filePath, options = {}) => {
     const fileFormatVersion = parseFileFormatVersion(lines[i]);
     if(fileFormatVersion) {
       returnValue.fileFormatVersion = fileFormatVersion;
+    }
+    
+    const visualStudioVersion = parseVisualStudioVersionInfo(lines[i]);
+    if(visualStudioVersion) {
+      returnValue.visualStudioVersion = visualStudioVersion;
     }
   }
 
