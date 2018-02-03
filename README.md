@@ -24,17 +24,20 @@ console.log(solutionData);
   Outputs:
 
   {
+    fileFormatVersion: '12.00',
+    visualStudioVersion: '15.0.27004.2009',
+    minimumVisualStudioVersion: '10.0.40219.1',
     projects: [
       {
         id: '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF',
         name: 'TestNUnit3',
         path: 'TestNUnit3\\TestNUnit3.csproj',
-        projectTypeId: 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC',
+        projectTypeId: 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC'
       }
     ]
   }
 */
-``` 
+```
 
 A full parse of a solution and all its dependencies can be done by passing the [`deepParse` option](#deep-parse). This will force the parser to enumerate and parse all dependent projects (as well as their dependencies).
 
@@ -48,6 +51,9 @@ console.log(solutionData);
   Outputs:
 
   {
+    fileFormatVersion: '12.00',
+    visualStudioVersion: '15.0.27004.2009',
+    minimumVisualStudioVersion: '10.0.40219.1',
     projects: [
       {
         id: '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF',
@@ -61,25 +67,26 @@ console.log(solutionData);
         ],
         packages: [
           {
-            name: 'NUnit.ConsoleRunner',
-            version: '3.7.0',
-            targetFramework: 'net45'  
+            name: 'NUnit',
+            version: '3.7.1',
+            targetFramework: 'net452'  
           }
         ],
         references: [
           {
-            assemblyName: 'NUnit.ConsoleRunner',
-            version: '3.7.1.0',
+            assemblyName: 'nunit.framework',
             culture: 'neutral',
+            hintPath: '..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll',
             processorArchitecture: 'MSIL',
-            publicKeyToken: 'b035f5f7f11d50a3a'
+            publicKeyToken: 'b035f5f7f11d50a3a',
+            version: '3.7.1.0'
           }
-        ],
+        ]
       }
     ]
   }
 */
-``` 
+```
 
 ### project
 Project file parser and utility functions
@@ -94,52 +101,44 @@ const parseProject = (filePath, options = {})
 Example:
 ```js
 const vsUtils = require('vs-utils');
-const projectData = vsUtils.project.parseProject('./myTestFile.csproj');
+const projectData = vsUtils.project.parseProject('./TestNUnit3/TestNUnit3.csproj');
 
 console.log(projectData);
 /*
   Outputs:
 
   {
-    references: [
-      {
-        assemblyName: 'Microsoft.VisualStudio.TestPlatform.TestFramework',
-        version: '14.0.0.0',
-        culture: 'neutral',
-        processorArchitecture: 'MSIL',
-        publicKeyToken: 'b03f5f7f11d50a3a'
-      }
-    ],
     codeFiles: [
       {
         fileName: 'Class1.cs'
       }
+    ],
+    references: [
+      {
+        assemblyName: 'nunit.framework',
+        culture: 'neutral',
+        hintPath: '..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll',
+        processorArchitecture: 'MSIL',
+        publicKeyToken: 'b035f5f7f11d50a3a',
+        version: '3.7.1.0'
+      }
     ]
   }
 */
-``` 
+```
 
 A full parse of a project and all its dependencies can be done by passing the [`deepParse` option](#deep-parse). This will force the parser to enumerate and parse all packages.
 
 Example:
 ```js
 const vsUtils = require('vs-utils');
-const projectData = vsUtils.project.parseProject('./myTestFile.csproj', { deepParse: true });
+const projectData = vsUtils.project.parseProject('./TestNUnit3/TestNUnit3.csproj', { deepParse: true });
 
 console.log(projectData);
 /*
   Outputs:
 
   {
-    references: [
-      {
-        assemblyName: 'Microsoft.VisualStudio.TestPlatform.TestFramework',
-        version: '14.0.0.0',
-        culture: 'neutral',
-        processorArchitecture: 'MSIL',
-        publicKeyToken: 'b03f5f7f11d50a3a'
-      }
-    ],
     codeFiles: [
       {
         fileName: 'Class1.cs'
@@ -147,9 +146,19 @@ console.log(projectData);
     ],
     packages: [
       {
-        name: 'NUnit.ConsoleRunner',
-        version: '14.0.0',
-        targetFramework: 'net452',
+        name: 'NUnit',
+        version: '3.7.1',
+        targetFramework: 'net452'  
+      }
+    ],
+    references: [
+      {
+        assemblyName: 'nunit.framework',
+        culture: 'neutral',
+        hintPath: '..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll',
+        processorArchitecture: 'MSIL',
+        publicKeyToken: 'b035f5f7f11d50a3a',
+        version: '3.7.1.0'
       }
     ]
   }
@@ -169,13 +178,13 @@ console.log(packages);
 
   [
     {
-      name: 'NUnit.ConsoleRunner',
-      version: '14.0.0',
-      targetFramework: 'net452',
+      name: 'NUnit',
+      version: '3.7.1',
+      targetFramework: 'net452'  
     }
   ]
 */
-``` 
+```
 
 ### lib
 Support functions
