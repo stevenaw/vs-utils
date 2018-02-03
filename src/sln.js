@@ -3,9 +3,16 @@ const path = require('path');
 const csproj = require('./csproj');
 const helpers = require('./internal');
 
+const parseFileFormatVersion = (lineOfText) => {
+  const regex = /^Microsoft Visual Studio Solution File, Format Version (\d+\.\d+)/;
+  const result = regex.exec(lineOfText);
+
+  return result && result[1];
+};
+
 const parseSolutionProject = (lineOfText) => {
-  const projectRegex = /^Project\("\{([A-Z0-9]{8}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{12})\}"\) = "([^"]+)", "([^"]+)", "\{([A-Z0-9]{8}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{12})\}"/;
-  const result = projectRegex.exec(lineOfText);
+  const regex = /^Project\("\{([A-Z0-9]{8}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{12})\}"\) = "([^"]+)", "([^"]+)", "\{([A-Z0-9]{8}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{12})\}"/;
+  const result = regex.exec(lineOfText);
 
   if (result) {
     return {
@@ -22,16 +29,19 @@ const parseSolution = (filePath, options = {}) => {
   const lines = contents.replace(/\r\n/g, '\n').split('\n');
 
   const returnValue = {
+    fileFormatVersion: undefined,
     projects: []
   };
 
   for(let i = 0; i < lines.length; i++) {
-    if(lines[i].startsWith('Project("{')) {
-      const solutionProject = parseSolutionProject(lines[i]);
+    const solutionProject = parseSolutionProject(lines[i]);
+    if(solutionProject) {
+      returnValue.projects.push(solutionProject);
+    }
 
-      if(solutionProject) {
-        returnValue.projects.push(solutionProject);
-      }
+    const fileFormatVersion = parseFileFormatVersion(lines[i]);
+    if(fileFormatVersion) {
+      returnValue.fileFormatVersion = fileFormatVersion;
     }
   }
 

@@ -8,6 +8,21 @@ describe('sln', () => {
       assert.throws(() => sln.parseSolution('NOPE'));
     });
 
+    describe('#parseSolution().fileFormatVersion', () => {
+      it('should have property "fileFormatVersion"', () => {
+        const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+
+        assert.exists(solutionData.fileFormatVersion);
+        assert.isString(solutionData.fileFormatVersion);
+      });
+
+      it('should parse property "fileFormatVersion" correctly', () => {
+        const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+
+        assert.equal(solutionData.fileFormatVersion, '12.00');
+      });
+    });
+
     describe('#parseSolution().projects', () => {
       it('should have property "projects"', () => {
         const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
