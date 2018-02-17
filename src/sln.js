@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 const csproj = require('./csproj');
@@ -38,7 +40,8 @@ const parseSolutionProject = (lineOfText) => {
   }
 };
 
-const parseSolution = (filePath, options = {}) => {
+const parseSolution = (filePath, options) => {
+  const providedOptions = options || {};
   const contents = helpers.getFileContentsOrFailSync(filePath);
   const lines = contents.replace(/\r\n/g, '\n').split('\n');
 
@@ -71,7 +74,7 @@ const parseSolution = (filePath, options = {}) => {
     }
   }
 
-  if(options.deepParse) {    
+  if(providedOptions.deepParse) {    
     for(let i = 0; i < returnValue.projects.length; i++) {
       const project = returnValue.projects[i];
 
@@ -80,7 +83,7 @@ const parseSolution = (filePath, options = {}) => {
         const projectLocation = path.join(slnDir, project.relativePath);
 
         if(helpers.fileExistsSync(projectLocation)) {
-          const projectData = csproj.parseProject(projectLocation, options);
+          const projectData = csproj.parseProject(projectLocation, providedOptions);
 
           if(projectData) {
             returnValue.projects[i] = Object.assign({}, project, projectData);

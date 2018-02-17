@@ -1,3 +1,5 @@
+'use strict';
+
 const semverUtils = require('semver-utils');
 
 const nthIndexOfChar = (haystack, needle, n) => {
