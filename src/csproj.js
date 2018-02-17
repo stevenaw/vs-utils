@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs');
 const parseXml = require('xml-parser');
 const path = require('path');
@@ -54,20 +56,21 @@ const parsePackages = (filePath) => {
 
   return xml.root.children.reduce((data, packageNode) => {
     if (packageNode.name === 'package') {
-      const package = {
+      const parsedPackage = {
         name: packageNode.attributes.id,
         version: packageNode.attributes.version,
         targetFramework: packageNode.attributes.targetFramework,
       };
 
-      data.push(package);
+      data.push(parsedPackage);
     }
 
     return data;
   }, []);
 };
 
-const parseProject = (filePath, options = {}) => {
+const parseProject = (filePath, options) => {
+  const providedOptions = options || {};
   const contents = helpers.getFileContentsOrFailSync(filePath);
   const xml = parseXml(contents);
 
@@ -94,7 +97,7 @@ const parseProject = (filePath, options = {}) => {
     packages: [],
   });
 
-  if(options.deepParse) {
+  if(providedOptions.deepParse) {
     const projDir = path.dirname(filePath);
     const packagesLocation = path.join(projDir, 'packages.config');
 
