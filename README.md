@@ -11,10 +11,40 @@ Solution file parser
 Parses a solution file.
 
 ```js
-const parseSolution = (filePath, options = {})
+const parseSolution = (file, options = {})
 ```
 
-Example:
+##### Examples
+
+From a path
+
+```js
+const vsUtils = require('vs-utils');
+const solutionData = vsUtils.solution.parseSolution('HelloWorld.sln');
+```
+
+From a string
+
+```js
+const vsUtils = require('vs-utils');
+const fs = require('fs');
+
+const contents = fs.readFileSync('HelloWorld.sln', { encoding: 'utf-8' });
+const solutionData = vsUtils.solution.parseSolution(contents);
+```
+
+From a buffer
+
+```js
+const vsUtils = require('vs-utils');
+const fs = require('fs');
+
+const buffer = fs.readFileSync('HelloWorld.sln');
+const solutionData = vsUtils.solution.parseSolution(buffer);
+```
+
+##### Sample Output
+
 ```js
 const vsUtils = require('vs-utils');
 const solutionData = vsUtils.solution.parseSolution('HelloWorld.sln');
@@ -39,7 +69,7 @@ console.log(solutionData);
 */
 ```
 
-A full parse of a solution and all its dependencies can be done by passing the [`deepParse` option](#deep-parse). This will force the parser to enumerate and parse all dependent projects (as well as their dependencies).
+A full parse of a solution and all its dependencies can be done by passing the [`deepParse` option](#deep-parse). This will force the parser to enumerate and parse all dependent projects (as well as their dependencies). See [parseProject()](#parseproject) for details.
 
 Example:
 ```js
@@ -95,8 +125,39 @@ Project file parser and utility functions
 Parses a project file.
 
 ```js
-const parseProject = (filePath, options = {})
+const parseProject = (file, options = {})
 ```
+
+##### Examples
+
+From a path
+
+```js
+const vsUtils = require('vs-utils');
+const projectData = vsUtils.project.parseProject('./TestNUnit3/TestNUnit3.csproj');
+```
+
+From a string
+
+```js
+const vsUtils = require('vs-utils');
+const fs = require('fs');
+
+const contents = fs.readFileSync('./TestNUnit3/TestNUnit3.csproj', { encoding: 'utf-8' });
+const projectData = vsUtils.project.parseProject(contents);
+```
+
+From a buffer
+
+```js
+const vsUtils = require('vs-utils');
+const fs = require('fs');
+
+const buffer = fs.readFileSync('./TestNUnit3/TestNUnit3.csproj');
+const projectData = vsUtils.project.parseProject(buffer);
+```
+
+##### Sample Output
 
 Example:
 ```js

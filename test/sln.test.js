@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('chai').assert;
+const fs = require('fs');
 const sln = require('../src/sln');
 
 describe('sln', () => {
@@ -8,6 +9,26 @@ describe('sln', () => {
   describe('#parseSolution()', () => {
     it('should should throw error if file doesnt exist', () => {
       assert.throws(() => sln.parseSolution('NOPE'));
+    });
+
+    it('should read as path when path provided', () => {
+      const solutionData = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+
+      assert.exists(solutionData.fileFormatVersion);
+    });
+
+    it('should read as file contents when contents provided', () => {
+      const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln', { encoding: 'utf-8' });
+      const solutionData = sln.parseSolution(contents);
+
+      assert.exists(solutionData.fileFormatVersion);
+    });
+
+    it('should read as file contents when buffer provided', () => {
+      const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+      const solutionData = sln.parseSolution(contents);
+
+      assert.exists(solutionData.fileFormatVersion);
     });
 
     describe('#parseSolution().fileFormatVersion', () => {

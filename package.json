@@ -11,6 +11,13 @@
     "preversion": "npm test",
     "postversion": "git push && git push --tags"
   },
+  "tags": [
+    "visual studio",
+    "csproj",
+    "sln",
+    "solution",
+    "parser"
+  ],
   "author": {
     "name": "Steven Weerdenburg"
   },
@@ -18,6 +25,7 @@
     "node": ">=4"
   },
   "dependencies": {
+    "is-buffer": "^2.0.2",
     "semver-utils": "^1.1.1",
     "xml-parser": "^1.2.1"
   },

@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('chai').assert;
+const fs = require('fs');
 const csproj = require('../src/csproj');
 
 describe('csproj', () => {
@@ -8,6 +9,32 @@ describe('csproj', () => {
   describe('#parseProject()', () => {
     it('should should throw error if file doesnt exist', () => {
       assert.throws(() => csproj.parseProject('NOPE'));
+    });
+
+    it('should read as path when path provided', () => {
+      const projectData = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj');
+
+      assert.exists(projectData.references);
+      assert.isArray(projectData.references);
+      assert.isAbove(projectData.references.length, 0);
+    });
+
+    it('should read as file contents when contents provided', () => {
+      const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj', { encoding: 'utf-8' });
+      const projectData = csproj.parseProject(contents);
+
+      assert.exists(projectData.references);
+      assert.isArray(projectData.references);
+      assert.isAbove(projectData.references.length, 0);
+    });
+
+    it('should read as file contents when buffer provided', () => {
+      const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj');
+      const projectData = csproj.parseProject(contents);
+
+      assert.exists(projectData.references);
+      assert.isArray(projectData.references);
+      assert.isAbove(projectData.references.length, 0);
     });
 
     it('should have property "references"', () => {
