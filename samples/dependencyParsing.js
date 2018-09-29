@@ -1,10 +1,19 @@
 'use strict';
 
-const utils = require('../').lib;
-const csproj = require('../').project;
-const sln = require('../').solution;
+const utils = require('../src');
 
-const determineNunitRunner = (version) => {
+
+const solution = utils.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+
+const packageData = solution.determinePackageVersions('NUnit');
+const asmData = solution.determineAssemblyVersions('nunit.framework');
+
+console.log(packageData);
+console.log(asmData);
+
+
+
+/*const determineNunitRunner = (version) => {
   const semver = utils.parseSemver(version);
 
   if(parseInt(semver.major, 10) < 3) {
@@ -67,13 +76,13 @@ runner = determineNunitRunner(nunitVersion);
 executable = determineNunitExecutable(nunitVersion);
 
 console.log('Determine version of NUnit based on project packages:');
-console.log(`${runner}\\tools\\${executable}\r\n`);
+console.log(`${runner}\\tools\\${executable}\r\n`);*/
 
 
-let solution = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln', { deepParse: true });
-nunitVersion = determinePackageVersions(solution, 'NUnit.ConsoleRunner');
+/*nunitVersion = determinePackageVersions(solution, 'NUnit.ConsoleRunner');
 runner = determineNunitRunner(nunitVersion);
 executable = determineNunitExecutable(nunitVersion);
 
 console.log('Determine version of NUnit based on solution packages:');
 console.log(`${runner}\\tools\\${executable}\r\n`);
+*/

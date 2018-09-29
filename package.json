@@ -3,7 +3,6 @@
   "version": "0.0.6",
   "description": "Tools and utilities for working with Visual Studio projects",
   "repository": "stevenaw/vs-utils",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "test": "nyc mocha --timeout=3000",
@@ -16,7 +15,8 @@
     "csproj",
     "sln",
     "solution",
-    "parser"
+    "parser",
+    "utilities"
   ],
   "author": {
     "name": "Steven Weerdenburg"
@@ -25,9 +25,7 @@
     "node": ">=4"
   },
   "dependencies": {
-    "is-buffer": "^2.0.2",
-    "semver-utils": "^1.1.1",
-    "xml-parser": "^1.2.1"
+    "vs-parse": "^0.1.1-0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
