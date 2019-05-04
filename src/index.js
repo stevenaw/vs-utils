@@ -4,11 +4,15 @@ const parser = require('vs-parse');
 const Solution = require('./Solution');
 
 const parseSolution = (input) => {
-	const rawData = parser.parseSolution(input, { deepParse: true });
+	return parser.parseSolution(input, { deepParse: true }).then(data => new Solution(data));
+};
 
-	return new Solution(rawData);
+const parseSolutionSync = (input) => {
+  const data = parser.parseSolutionSync(input, { deepParse: true });
+  return new Solution(data);
 };
 
 module.exports = {
-	parseSolution
+	parseSolution,
+  parseSolutionSync
 };

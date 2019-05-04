@@ -1,15 +1,21 @@
 'use strict';
 
-const utils = require('../src');
+const path = require('path');
+const vsUtils = require('../src');
 
+const slnFile = path.join(__dirname, './TestConsoleApplication/TestConsoleApplication.sln');
+vsUtils.parseSolution(slnFile).then(solution => {
+  const projects = solution.projects();
+  const packageData = solution.determinePackageVersions('NUnit');
+  const asmData = solution.determineAssemblyVersions('nunit.framework');
+  const application = solution.getProject('TestConsoleApplication');
 
-const solution = utils.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+  console.log(application);
+  console.log(projects);
+  console.log(packageData);
+  console.log(asmData);
+})
 
-const packageData = solution.determinePackageVersions('NUnit');
-const asmData = solution.determineAssemblyVersions('nunit.framework');
-
-console.log(packageData);
-console.log(asmData);
 
 
 
@@ -34,23 +40,6 @@ const determineNunitExecutable = (version, arch) => {
   }
 }
 
-const determinePackageVersions = (solutionData, packageName) => {
-  const result = solutionData.projects.reduce((result, project) => {
-    const foundPackage = project.packages && project.packages.find(ref => ref.name === packageName);
-
-    if(foundPackage && result.indexOf(foundPackage.version) === -1) {
-      result.push(foundPackage.version);
-    }
-
-    return result;
-  }, []);
-
-  if(result.length === 1) {
-    return result[0];
-  } else {
-    throw new Error('Could not find single version.');
-  }
-};
 
 let projectData = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj');
 let nunitVersion = projectData.references.find(ref => ref.assemblyName === 'nunit.framework').version;
