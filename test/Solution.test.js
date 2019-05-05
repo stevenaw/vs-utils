@@ -59,8 +59,8 @@ describe('Solution', () => {
 
   describe('#determinePackageVersions()', () => {
     it('should return data for single version', () => {
-      const versions = sln.determinePackageVersions('MSTest.TestFramework');
-      const expectedVersions = [ '1.1.11' ];
+      const versions = sln.determinePackageVersions('Shouldly');
+      const expectedVersions = [ '3.0.2' ];
 
       assert.equal(versions.length, expectedVersions.length);
       for (let expectedVersion of expectedVersions) {
@@ -81,6 +81,38 @@ describe('Solution', () => {
     it('should return single item for multiple packages of same version', () => {
       const versions = sln.determinePackageVersions('Newtonsoft.Json');
       const expectedVersions = [ '12.0.2' ];
+
+      assert.equal(versions.length, expectedVersions.length);
+      for (let expectedVersion of expectedVersions) {
+        assert.include(versions, expectedVersion);
+      }
+    });
+  });
+
+  describe('#determineAssemblyVersions()', () => {
+    it('should return data for single version', () => {
+      const versions = sln.determineAssemblyVersions('Shouldly');
+      const expectedVersions = [ '3.0.2.0' ];
+
+      assert.equal(versions.length, expectedVersions.length);
+      for (let expectedVersion of expectedVersions) {
+        assert.include(versions, expectedVersion);
+      }
+    });
+
+    it('should return data for multiple versions of same package', () => {
+      const versions = sln.determineAssemblyVersions('nunit.framework');
+      const expectedVersions = [ '3.7.1.0', '2.6.4.14350' ];
+
+      assert.equal(versions.length, expectedVersions.length);
+      for (let expectedVersion of expectedVersions) {
+        assert.include(versions, expectedVersion);
+      }
+    });
+
+    it('should return single item for multiple packages of same version', () => {
+      const versions = sln.determineAssemblyVersions('Newtonsoft.Json');
+      const expectedVersions = [ '12.0.0.0' ];
 
       assert.equal(versions.length, expectedVersions.length);
       for (let expectedVersion of expectedVersions) {
