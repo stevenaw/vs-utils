@@ -10,8 +10,6 @@ vsUtils.parseSolution(slnFile).then(solution => {
   const asmData = solution.determineAssemblyVersions('nunit.framework');
   const application = solution.getProject('TestConsoleApplication');
 
-  console.log(application);
-  console.log(projects);
   console.log(packageData);
   console.log(asmData);
 })
