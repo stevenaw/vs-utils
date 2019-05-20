@@ -1,5 +1,42 @@
 'use strict';
 
+const parser = require('vs-parse');
+
+const buildAssemblyReference = (rawData) => {
+  const versionString = rawData.version;
+  const version = parser.parseSemverSync(versionString);
+
+  return {
+    assemblyName: rawData.assemblyName,
+    culture: rawData.culture,
+    processorArchitecture: rawData.processorArchitecture,
+    publicKeyToken: rawData.publicKeyToken,
+    hintPath: rawData.hintPath,
+    versionString: versionString,
+    version: version,
+  }
+}
+
+const buildPackageReference = (rawData) => {
+  const versionString = rawData.version;
+  const version = parser.parseSemverSync(versionString);
+
+  return {
+    name: rawData.name,
+    targetFramework: rawData.targetFramework,
+    versionString: versionString,
+    version: version,
+  }
+}
+
+const normalizeAndTransform = (items, xform) => {
+  if (!items) {
+    return [];
+  }
+
+  return items.filter(item => item).map((item, i) => xform(item));
+};
+
 class Project {
   constructor(rawData) {
     Object.assign(this, {
@@ -8,17 +45,17 @@ class Project {
       }
     });
 
-    const refData = (rawData && rawData.references) || [];
+    const refs = normalizeAndTransform((rawData && rawData.references), buildAssemblyReference);
     Object.assign(this, {
       references() {
-        return refData;
+        return refs;
       }
     });
 
-    const pkgData = (rawData && rawData.packages) || [];
+    const pkgs = normalizeAndTransform((rawData && rawData.packages), buildPackageReference);
     Object.assign(this, {
       packages() {
-        return pkgData;
+        return pkgs;
       }
     });
   }

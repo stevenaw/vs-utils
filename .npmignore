@@ -1,3 +1,7 @@
 test/
+**/bin/
+**/obj/
+**/packages/
+**/.vs/
 .nyc_output
 .github
