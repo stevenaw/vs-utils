@@ -27,6 +27,7 @@ vsUtils.parseSolution(slnFile).then(solution => {
 
   console.log(packageData);
   console.log(asmData);
+  console.log(solution);
 
   return solution;
 }).then(solution => {

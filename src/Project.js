@@ -1,6 +1,7 @@
 'use strict';
 
 const parser = require('vs-parse');
+const internal = require('./internal');
 
 const buildAssemblyReference = (rawData) => {
   const versionString = rawData.version;
@@ -29,45 +30,36 @@ const buildPackageReference = (rawData) => {
   }
 }
 
-const normalizeAndTransform = (items, xform) => {
-  if (!items) {
-    return [];
-  }
-
-  return items.filter(item => item).map((item, i) => xform(item));
-};
-
 class Project {
   constructor(rawData) {
+    const refs = internal.normalizeAndTransform((rawData && rawData.references), buildAssemblyReference);
+    const pkgs = internal.normalizeAndTransform((rawData && rawData.packages), buildPackageReference);
+
     Object.assign(this, {
       data() {
         return rawData;
-      }
-    });
-
-    const refs = normalizeAndTransform((rawData && rawData.references), buildAssemblyReference);
-    Object.assign(this, {
+      },
       references() {
         return refs;
-      }
-    });
-
-    const pkgs = normalizeAndTransform((rawData && rawData.packages), buildPackageReference);
-    Object.assign(this, {
+      },
       packages() {
         return pkgs;
-      }
+      },
+      id: rawData && rawData.id,
+      name: rawData && rawData.name,
+      relativePath: rawData && rawData.relativePath,
+      projectTypeId: rawData && rawData.projectTypeId,
     });
   }
 
   determinePackageVersion(packageName) {
     const pkg = this.packages().find(pkg => pkg.name === packageName);
-    return pkg && pkg.version;
+    return pkg && pkg.versionString;
   }
 
   determineAssemblyVersion(assemblyName) {
     const ref = this.references().find(ref => ref.assemblyName === assemblyName);
-    return ref && ref.version;
+    return ref && ref.versionString;
   }
 }
 

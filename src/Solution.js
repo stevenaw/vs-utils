@@ -1,26 +1,27 @@
 'use strict';
 
 const Project = require('./Project');
+const internal = require('./internal');
 
 class Solution {
   constructor(rawData) {
+    const projects = internal.normalizeAndTransform((rawData && rawData.projects), proj => new Project(proj));
+
   	Object.assign(this, {
       data() {
       	return rawData;
-      }
-    });
-
-    const projData = (rawData && rawData.projects) || [];
-    const projects = projData.filter(proj => proj).map((proj, i) => new Project(proj));
-    Object.assign(this, {
+      },
       projects() {
         return projects;
-      }
+      },
+      fileFormatVersion: rawData && rawData.fileFormatVersion,
+      visualStudioVersion: rawData && rawData.visualStudioVersion,
+      minimumVisualStudioVersion: rawData && rawData.minimumVisualStudioVersion,
     });
   }
 
   getProject(projectName) {
-    const projects = this.projects().filter(project => project.data().name === projectName);
+    const projects = this.projects().filter(project => project.name === projectName);
     return projects[0];
   }
 
