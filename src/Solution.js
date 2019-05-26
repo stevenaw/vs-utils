@@ -11,22 +11,20 @@ class Solution {
       data() {
       	return rawData;
       },
-      projects() {
-        return projects;
-      },
       fileFormatVersion: rawData && rawData.fileFormatVersion,
       visualStudioVersion: rawData && rawData.visualStudioVersion,
       minimumVisualStudioVersion: rawData && rawData.minimumVisualStudioVersion,
+      projects,
     });
   }
 
   getProject(projectName) {
-    const projects = this.projects().filter(project => project.name === projectName);
+    const projects = this.projects.filter(project => project.name === projectName);
     return projects[0];
   }
 
   determinePackageVersions(packageName) {
-    const result = this.projects().reduce((result, project) => {
+    const result = this.projects.reduce((result, project) => {
       const version = project.determinePackageVersion(packageName);
       if (version && result.indexOf(version) === -1) {
         result.push(version);
@@ -39,7 +37,7 @@ class Solution {
   }
 
   determineAssemblyVersions(assemblyName) {
-    const result = this.projects().reduce((result, project) => {
+    const result = this.projects.reduce((result, project) => {
       const version = project.determineAssemblyVersion(assemblyName);
       if (version && result.indexOf(version) === -1) {
         result.push(version);

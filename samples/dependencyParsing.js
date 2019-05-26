@@ -21,6 +21,8 @@ const determineNunitExecutable = (semver, arch) => {
 };
 
 const slnFile = path.join(__dirname, './TestConsoleApplication/TestConsoleApplication.sln');
+const projFile = path.join(__dirname, './TestConsoleApplication/TestConsoleApplication/TestConsoleApplication.csproj');
+
 vsUtils.parseSolution(slnFile).then(solution => {
   const packageData = solution.determinePackageVersions('NUnit');
   const asmData = solution.determineAssemblyVersions('nunit.framework');
@@ -31,8 +33,8 @@ vsUtils.parseSolution(slnFile).then(solution => {
 
   return solution;
 }).then(solution => {
-  solution.projects().forEach(project => {
-    const projectName = project.data().name;
+  solution.projects.forEach(project => {
+    const projectName = project.name;
     const versionInfo = project.determinePackageVersion('NUnit');
 
     if (versionInfo) {
@@ -42,5 +44,11 @@ vsUtils.parseSolution(slnFile).then(solution => {
       console.log(`Found NUnit executable for project ${projectName}: `);
       console.log(`${runner}\\tools\\${executable}\r\n`);
     }
+  });
+});
+
+vsUtils.parseProject(projFile).then(project => {
+  Object.entries(project).forEach(propInfo => {
+    console.log(`${propInfo[0]}=${propInfo[1]}`);
   });
 });

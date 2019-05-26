@@ -22,22 +22,22 @@ describe('Solution', () => {
     });
   });
 
-  describe('#projects()', () => {
+  describe('#projects', () => {
     it('should expose project instances', () => {
-      for(let proj of sln.projects()) {
+      for(let proj of sln.projects) {
         assert.instanceOf(proj, Project);
       }
     });
 
     it('should be empty for falsy data', () => {
       const badSln = new Solution(undefined);
-      assert.isEmpty(badSln.projects());
+      assert.isEmpty(badSln.projects);
     });
 
     it('should be empty on falsy project data', () => {
       const badData = { projects: [ undefined ]};
       const badSln = new Solution(badData);
-      assert.isEmpty(badSln.projects());
+      assert.isEmpty(badSln.projects);
     });
   });
 
