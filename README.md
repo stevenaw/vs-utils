@@ -52,42 +52,59 @@ A [`Project`](#project) object
 
 
 ## Examples
-### Solution parsing
+### Parse solution from path and enumerate projects
 ```js
 const vsUtils = require('vs-utils');
 
-// Parse from a string
-const solutionFromPath = vsUtils.parseSolutionSync('HelloWorld.sln');
+const solution = await vsUtils.parseSolution('HelloWorld.sln');
 
-// Parse from a string
-const fs = require('fs');
-const contents = fs.readFileSync('HelloWorld.sln', { encoding: 'utf-8' });
-const solutionFromString = vsUtils.parseSolutionSync(contents);
-
-// Parse from a buffer
-const fs = require('fs');
-const buffer = fs.readFileSync('HelloWorld.sln');
-const solutionFromBuffer = vsUtils.parseSolutionSync(buffer);
+solution.projects.forEach(project => {
+  const projectName = project.name;
+  console.log(`Project: ${project.name}\r\n`);
+});
 ```
 
-### Project parsing
+### Parse solution from file contents and find test projects
 ```js
 const vsUtils = require('vs-utils');
-
-// Parse from a string
-const projectFromPath = vsUtils.parseProjectSync('HelloWorld.csproj');
-
-// Parse from a string
 const fs = require('fs');
-const contents = fs.readFileSync('HelloWorld.csproj', { encoding: 'utf-8' });
-const projectFromString = vsUtils.parseProjectSync(contents);
 
-// Parse from a buffer
-const fs = require('fs');
-const buffer = fs.readFileSync('HelloWorld.csproj');
-const projectFromBuffer = vsUtils.parseProjectSync(buffer);
+const contents = await fs.readFile('HelloWorld.sln', { encoding: 'utf-8' });
+const solution = await vsUtils.parseSolution(contents);
+const testProjects = solution.projects.filter(proj => proj.determinePackageVersion('NUnit'));
 ```
 
+### Parse test project and find relevant test runner
+```js
+const vsUtils = require('vs-utils');
+const fs = require('fs');
+
+const buffer = await fs.readFile('TestProject.csproj');
+const project = await vsUtils.parseProject(contents);
+const semver = project.determinePackageVersion('NUnit');
+const arch = 'x64';
+
+let runnerName;
+let executable;
+
+if (parseInt(semver.major, 10) < 3) {
+  const archFlag = (arch && arch.toUpperCase() === 'X86') ? '-x86' : '';
+
+  runnerName = 'NUnit.Runners';
+  executable = `nunit-console${archFlag}.exe`;
+} else {
+  runnerName = 'NUnit.ConsoleRunner';
+  executable = 'nunit3-console.exe';
+}
+
+if (!project.determinePackageVersion(runnerName)) {
+  throw new Error(`Could not find installed test runner package '${runnerName}' of version ${semver} in project '${project.name}'`);
+}
+
+const runnerPath = `.\\packages\\${runnerName}.${semver.version}\\tools\\${executable}`;
+
+console.log(`Console runner path: ${runnerPath}`);
+```
 
 ## Object Model
 
@@ -97,26 +114,26 @@ const projectFromBuffer = vsUtils.parseProjectSync(buffer);
 - **fileFormatVersion** - `string` - The version of the Visual Studio file format
 - **visualStudioVersion** - `string` - The version of Visual Studio to use the solution
 - **minimumVisualStudioVersion** - `string` - The minimum version of Visual Studio to use the solution
-- **projects** - `array` - An array of `Project` instances
+- **projects** - `array` - An array of [`Project`](#project) instances
 
 #### Functions
 
 ##### data()
 Returns the underlying parsed project info
 ##### determinePackageVersions(packageName)
-Returns an array of version strings in the solution for the given package name
+Returns an array of [`Version`](#version) instances for the given package name
 ##### determineAssemblyVersions(assemblyName)
-Returns an array of version strings in the solution for the given assembly name
+Returns an array of [`Version`](#version) instances for the given assembly name
 ##### getProject(projectName)
 Get and return a project instance by name (or undefined if not found)
 
 ### Project
 #### Properties
 
-- **id** - `UUID` - The ID of the project
+- **id** - `string` - The ID of the project
 - **name** - `string` - The name of the project
 - **relativePath** - `string` - The path of the project, relative to the solution file
-- **projectTypeId** - `UUID` - The Type ID of the project
+- **projectTypeId** - `string` - The Type ID of the project
 - **codeFiles** - `array` - An array of strings of code files in the project
 - **packages** - `array` - An array of packages in the project
 - **references** - `array` - An array of references in the project
@@ -126,6 +143,14 @@ Get and return a project instance by name (or undefined if not found)
 ##### data()
 Returns the underlying parsed project info
 ##### determinePackageVersion(packageName)
-Returns the version string of the package in the project
+Returns the [`Version`](#version) instance of the package in the project
 ##### determineAssemblyVersion(assemblyName)
-Returns the version string of the assembly in the project
+Returns the [`Version`](#version) instance of the assembly in the project
+
+### Version
+#### Properties
+
+- **major** - `string` - The major version number
+- **minor** - `string` - The minor version number
+- **patch** - `string` - The patch version number
+- **version** - `string` - The full version string

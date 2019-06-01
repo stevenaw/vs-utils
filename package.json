@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "nyc mocha --timeout=3000",
-    "demo": "node samples/dependencyParsing",
+    "demo": "node samples",
     "preversion": "npm test",
     "postversion": "git push && git push --tags"
   },

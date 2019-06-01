@@ -52,12 +52,12 @@ class Project {
 
   determinePackageVersion(packageName) {
     const pkg = this.packages.find(pkg => pkg.name === packageName);
-    return pkg && pkg.versionString;
+    return pkg && pkg.version;
   }
 
   determineAssemblyVersion(assemblyName) {
     const ref = this.references.find(ref => ref.assemblyName === assemblyName);
-    return ref && ref.versionString;
+    return ref && ref.version;
   }
 }
 
