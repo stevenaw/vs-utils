@@ -125,7 +125,7 @@ Returns an array of [`Version`](#version) instances for the given package name
 ##### determineAssemblyVersions(assemblyName)
 Returns an array of [`Version`](#version) instances for the given assembly name
 ##### getProject(projectName)
-Get and return a project instance by name (or undefined if not found)
+Get and return a [`Project`](#project) instance by name (or undefined if not found)
 
 ### Project
 #### Properties
