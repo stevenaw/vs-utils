@@ -18,9 +18,14 @@ vsUtils.parseSolution(slnFile).then(solution => {
     });
   });
 
+  const versionInfo = Object.keys(packages).sort().map(pkgName => ({
+    name: pkgName,
+    versions: packages[pkgName]
+  }));
+
   console.log('----------------------------');
   console.log('Get All Packages in Solution');
   console.log('----------------------------');
 
-  console.log(packages)
+  console.log(versionInfo)
 });
