@@ -5,3 +5,5 @@ test/
 **/.vs/
 .nyc_output
 .github
+.gitattributes
+*.yml

@@ -6,7 +6,8 @@ const vsUtils = require('../src');
 const slnFile = path.join(__dirname, './TestConsoleApplication/TestConsoleApplication.sln');
 
 vsUtils.parseSolution(slnFile).then(solution => {
-  var packages = {};
+  const packages = {};
+  
   solution.projects.forEach(proj => {
     proj.packages.forEach(pkg => {
       if (!packages[pkg.name]) {
