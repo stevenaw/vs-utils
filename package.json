@@ -22,7 +22,7 @@
     "name": "Steven Weerdenburg"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "dependencies": {
     "vs-parse": "^1.1.0"
