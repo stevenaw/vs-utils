@@ -2,33 +2,7 @@
 
 const parser = require('vs-parse');
 const internal = require('./internal');
-
-const buildAssemblyReference = (rawData) => {
-  const versionString = rawData.version;
-  const version = parser.parseSemverSync(versionString);
-
-  return {
-    assemblyName: rawData.assemblyName,
-    culture: rawData.culture,
-    processorArchitecture: rawData.processorArchitecture,
-    publicKeyToken: rawData.publicKeyToken,
-    hintPath: rawData.hintPath,
-    versionString: versionString,
-    version: version,
-  }
-}
-
-const buildPackageReference = (rawData) => {
-  const versionString = rawData.version;
-  const version = parser.parseSemverSync(versionString);
-
-  return {
-    name: rawData.name,
-    targetFramework: rawData.targetFramework,
-    versionString: versionString,
-    version: version,
-  }
-}
+const Version = require('./Version');
 
 class Project {
   constructor(rawData) {
@@ -36,18 +10,15 @@ class Project {
     const packages = internal.normalizeAndTransform((rawData && rawData.packages), buildPackageReference);
     const codeFiles = internal.normalizeAndTransform((rawData && rawData.codeFiles), file => file.fileName);
 
-    Object.assign(this, {
-      data() {
-        return rawData;
-      },
-      id: rawData && rawData.id,
-      name: rawData && rawData.name,
-      relativePath: rawData && rawData.relativePath,
-      projectTypeId: rawData && rawData.projectTypeId,
-      codeFiles,
-      packages,
-      references,
-    });
+    this.id = rawData && rawData.id;
+    this.name = rawData && rawData.name;
+    this.relativePath = rawData && rawData.relativePath;
+    this.projectTypeId = rawData && rawData.projectTypeId;
+    this.codeFiles = codeFiles;
+    this.packages = packages;
+    this.references = references;
+
+    this.data = () => rawData;
   }
 
   determinePackageVersion(packageName) {
@@ -58,6 +29,33 @@ class Project {
   determineAssemblyVersion(assemblyName) {
     const ref = this.references.find(ref => ref.assemblyName === assemblyName);
     return ref && ref.version;
+  }
+}
+
+const buildAssemblyReference = (rawData) => {
+  const versionString = rawData.version;
+  const semver = parser.parseSemverSync(versionString);
+
+  return {
+    assemblyName: rawData.assemblyName,
+    culture: rawData.culture,
+    processorArchitecture: rawData.processorArchitecture,
+    publicKeyToken: rawData.publicKeyToken,
+    hintPath: rawData.hintPath,
+    versionString: versionString,
+    version: semver && new Version(semver),
+  }
+}
+
+const buildPackageReference = (rawData) => {
+  const versionString = rawData.version;
+  const semver = parser.parseSemverSync(versionString);
+
+  return {
+    name: rawData.name,
+    targetFramework: rawData.targetFramework,
+    versionString: versionString,
+    version: semver && new Version(semver),
   }
 }
 

@@ -7,15 +7,12 @@ class Solution {
   constructor(rawData) {
     const projects = internal.normalizeAndTransform((rawData && rawData.projects), proj => new Project(proj));
 
-  	Object.assign(this, {
-      data() {
-      	return rawData;
-      },
-      fileFormatVersion: rawData && rawData.fileFormatVersion,
-      visualStudioVersion: rawData && rawData.visualStudioVersion,
-      minimumVisualStudioVersion: rawData && rawData.minimumVisualStudioVersion,
-      projects,
-    });
+    this.fileFormatVersion = rawData && rawData.fileFormatVersion;
+    this.visualStudioVersion = rawData && rawData.visualStudioVersion;
+    this.minimumVisualStudioVersion = rawData && rawData.minimumVisualStudioVersion;
+    this.projects = projects;
+
+    this.data = () => rawData;
   }
 
   getProject(projectName) {
