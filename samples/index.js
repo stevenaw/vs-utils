@@ -9,7 +9,6 @@ const requestedSample = args[0];
 
 fs.readdir(currentDirectory, (err, files) => {
   const siblings = files.filter(file => file !== currentFile);
-
   const allSamples = siblings.filter(file => {
     const fullPath = path.join(currentDirectory, file);
     const stats = fs.lstatSync(fullPath);
@@ -18,7 +17,6 @@ fs.readdir(currentDirectory, (err, files) => {
   }).map(file => path.parse(file).name);
 
   const samplesToRun = requestedSample ? allSamples.filter(sample => sample == requestedSample) : allSamples;
-
   samplesToRun.forEach(sample => {
     require(`./${sample}`);
   });

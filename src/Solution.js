@@ -26,7 +26,7 @@ class Solution {
   determinePackageVersions(packageName) {
     const result = this.projects.reduce((result, project) => {
       const version = project.determinePackageVersion(packageName);
-      if (version && result.indexOf(version) === -1) {
+      if (version && !result.find(v => v.version === version.version)) {
         result.push(version);
       }
 
@@ -39,7 +39,7 @@ class Solution {
   determineAssemblyVersions(assemblyName) {
     const result = this.projects.reduce((result, project) => {
       const version = project.determineAssemblyVersion(assemblyName);
-      if (version && result.indexOf(version) === -1) {
+      if (version && !result.find(v => v.version === version.version)) {
         result.push(version);
       }
 

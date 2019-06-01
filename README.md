@@ -154,3 +154,4 @@ Returns the [`Version`](#version) instance of the assembly in the project
 - **minor** - `string` - The minor version number
 - **patch** - `string` - The patch version number
 - **version** - `string` - The full version string
+- **originalString** - `string` - The original version string

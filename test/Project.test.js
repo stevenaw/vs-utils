@@ -26,7 +26,7 @@ describe('Project', () => {
       const version = proj.determineAssemblyVersion('Shouldly');
       const expectedVersion = '3.0.2.0';
 
-      assert.equal(version, expectedVersion);
+      assert.equal(version.originalString, expectedVersion);
     });
 
     it('should return undefined for unfound assembly', () => {
@@ -41,7 +41,7 @@ describe('Project', () => {
       const version = proj.determinePackageVersion('Shouldly');
       const expectedVersion = '3.0.2';
 
-      assert.equal(version, expectedVersion);
+      assert.equal(version.originalString, expectedVersion);
     });
 
     it('should return undefined for unfound assembly', () => {

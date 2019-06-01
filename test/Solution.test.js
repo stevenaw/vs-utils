@@ -59,7 +59,7 @@ describe('Solution', () => {
 
   describe('#determinePackageVersions()', () => {
     it('should return data for single version', () => {
-      const versions = sln.determinePackageVersions('Shouldly');
+      const versions = sln.determinePackageVersions('Shouldly').map(v => v.originalString);
       const expectedVersions = [ '3.0.2' ];
 
       assert.equal(versions.length, expectedVersions.length);
@@ -69,7 +69,7 @@ describe('Solution', () => {
     });
 
     it('should return data for multiple versions of same package', () => {
-      const versions = sln.determinePackageVersions('NUnit');
+      const versions = sln.determinePackageVersions('NUnit').map(v => v.originalString);
       const expectedVersions = [ '3.7.1', '2.6.4' ];
 
       assert.equal(versions.length, expectedVersions.length);
@@ -79,9 +79,9 @@ describe('Solution', () => {
     });
 
     it('should return single item for multiple packages of same version', () => {
-      const versions = sln.determinePackageVersions('Newtonsoft.Json');
+      const versions = sln.determinePackageVersions('Newtonsoft.Json').map(v => v.originalString);
       const expectedVersions = [ '12.0.2' ];
-
+      
       assert.equal(versions.length, expectedVersions.length);
       for (let expectedVersion of expectedVersions) {
         assert.include(versions, expectedVersion);
@@ -91,7 +91,7 @@ describe('Solution', () => {
 
   describe('#determineAssemblyVersions()', () => {
     it('should return data for single version', () => {
-      const versions = sln.determineAssemblyVersions('Shouldly');
+      const versions = sln.determineAssemblyVersions('Shouldly').map(v => v.originalString);
       const expectedVersions = [ '3.0.2.0' ];
 
       assert.equal(versions.length, expectedVersions.length);
@@ -101,7 +101,7 @@ describe('Solution', () => {
     });
 
     it('should return data for multiple versions of same package', () => {
-      const versions = sln.determineAssemblyVersions('nunit.framework');
+      const versions = sln.determineAssemblyVersions('nunit.framework').map(v => v.originalString);
       const expectedVersions = [ '3.7.1.0', '2.6.4.14350' ];
 
       assert.equal(versions.length, expectedVersions.length);
@@ -111,7 +111,7 @@ describe('Solution', () => {
     });
 
     it('should return single item for multiple packages of same version', () => {
-      const versions = sln.determineAssemblyVersions('Newtonsoft.Json');
+      const versions = sln.determineAssemblyVersions('Newtonsoft.Json').map(v => v.originalString);
       const expectedVersions = [ '12.0.0.0' ];
 
       assert.equal(versions.length, expectedVersions.length);
