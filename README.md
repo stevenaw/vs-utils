@@ -74,6 +74,20 @@ const solution = await vsUtils.parseSolution(contents);
 const testProjects = solution.projects.filter(proj => proj.determinePackageVersion('NUnit'));
 ```
 
+### Parse solution from path and find packages with multiple versions
+```js
+const vsUtils = require('vs-utils');
+
+const solution = await vsUtils.parseSolution('HelloWorld.sln');
+
+const packageMap = solution.getAllPackageVersions();
+const filteredPackages = Array.from(packageMap.entries()).filter(value => value[1].length > 1);
+const packages = new Map(filteredPackages);
+
+console.log('Packages with multiple versions in solution');
+console.log(packages);
+```
+
 ### Parse test project and find relevant test runner
 ```js
 const vsUtils = require('vs-utils');
@@ -102,7 +116,6 @@ if (!project.determinePackageVersion(runnerName)) {
 }
 
 const runnerPath = `.\\packages\\${runnerName}.${semver.version}\\tools\\${executable}`;
-
 console.log(`Console runner path: ${runnerPath}`);
 ```
 
