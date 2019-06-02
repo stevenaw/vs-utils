@@ -9,6 +9,7 @@
     "test": "nyc mocha --timeout=3000",
     "demo": "node samples/dependencyParsing",
     "preversion": "npm test",
+    "build": "",
     "postversion": "git push && git push --tags"
   },
   "tags": [
