@@ -45,6 +45,40 @@ class Solution {
 
     return result;
   }
+
+  getAllPackageVersions() {
+    const packages = {};
+    this.projects.forEach(proj => {
+      proj.packages.forEach(pkg => {
+        if (!packages[pkg.name]) {
+          packages[pkg.name] = [ pkg.version ];
+        } else if (!packages[pkg.name].find(v => v.version == pkg.version)) {
+          packages[pkg.name].push(pkg.version);
+        }
+      });
+    });
+
+    const entries = Object.entries(packages).sort((a, b) => a[0].localeCompare(b[0]));
+
+    return new Map(entries);
+  }
+
+  getAllAssemblyVersions() {
+    const refs = {};
+    this.projects.forEach(proj => {
+      proj.references.filter(ref => ref.version).forEach(ref => {
+        if (!refs[ref.assemblyName]) {
+          refs[ref.assemblyName] = [ ref.version ];
+        } else if (!refs[ref.assemblyName].find(v => v.version == ref.version)) {
+          refs[ref.assemblyName].push(ref.version);
+        }
+      });
+    });
+
+    const entries = Object.entries(refs).sort((a, b) => a[0].localeCompare(b[0]));
+
+    return new Map(entries);
+  }
 }
 
 module.exports = Solution;
