@@ -8,6 +8,7 @@
     "test": "nyc mocha --timeout=3000",
     "demo": "node samples",
     "preversion": "npm test",
+    "build": "",
     "postversion": "git push && git push --tags"
   },
   "tags": [
