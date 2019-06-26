@@ -4,11 +4,12 @@ Node-based read-only object model for parsing and reading Visual Studio projects
 ## Parsing Functions
 ### parseSolution
 ```js
-parseSolution(file);
+parseSolution(file, opts);
 ```
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
+- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
 
 #### Return value
 A `Promise` which resolves to a [`Solution`](#solution) object
@@ -16,11 +17,12 @@ A `Promise` which resolves to a [`Solution`](#solution) object
 
 ### parseSolutionSync
 ```js
-parseSolutionSync(file);
+parseSolutionSync(file, opts);
 ```
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
+- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
 
 #### Return value
 A [`Solution`](#solution) object
@@ -28,11 +30,12 @@ A [`Solution`](#solution) object
 
 ### parseProject
 ```js
-parseProject(file);
+parseProject(file, opts);
 ```
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
+- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
 
 #### Return value
 A `Promise` which resolves to a [`Project`](#project) object
@@ -40,15 +43,20 @@ A `Promise` which resolves to a [`Project`](#project) object
 
 ### parseProjectSync
 ```js
-parseProjectSync(file);
+parseProjectSync(file, opts);
 ```
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
+- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
 
 #### Return value
 A [`Project`](#project) object
 
+## Parsing Options
+
+### deepParse
+### dirRoot
 
 
 ## Examples
