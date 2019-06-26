@@ -1,3 +1,10 @@
+/*
+  A script to run individual sample apps
+  npm run demo {demoName}
+
+  demoName maps to a file other than index.js in the directory root
+  Omitting demoName will run all samples
+*/
 const fs = require('fs');
 const path = require('path');
 

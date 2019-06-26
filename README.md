@@ -52,6 +52,8 @@ A [`Project`](#project) object
 
 
 ## Examples
+For a full list of samples and demos, see the [samples](./samples) folder.
+
 ### Parse solution from path and enumerate projects
 ```js
 const vsUtils = require('vs-utils');
@@ -74,11 +76,13 @@ const solution = await vsUtils.parseSolution(contents);
 const testProjects = solution.projects.filter(proj => proj.determinePackageVersion('NUnit'));
 ```
 
-### Parse solution from path and find packages with multiple versions
+### Parse  solution from buffer and find packages with multiple versions
 ```js
 const vsUtils = require('vs-utils');
+const fs = require('fs');
 
-const solution = await vsUtils.parseSolution('HelloWorld.sln');
+const buffer = await fs.readFile('HelloWorld.sln');
+const solution = await vsUtils.parseSolution(buffer);
 
 const packageMap = solution.getAllPackageVersions();
 const filteredPackages = Array.from(packageMap.entries()).filter(value => value[1].length > 1);
@@ -86,37 +90,6 @@ const packages = new Map(filteredPackages);
 
 console.log('Packages with multiple versions in solution');
 console.log(packages);
-```
-
-### Parse test project and find relevant test runner
-```js
-const vsUtils = require('vs-utils');
-const fs = require('fs');
-
-const buffer = await fs.readFile('TestProject.csproj');
-const project = await vsUtils.parseProject(contents);
-const semver = project.determinePackageVersion('NUnit');
-const arch = 'x64';
-
-let runnerName;
-let executable;
-
-if (parseInt(semver.major, 10) < 3) {
-  const archFlag = (arch && arch.toUpperCase() === 'X86') ? '-x86' : '';
-
-  runnerName = 'NUnit.Runners';
-  executable = `nunit-console${archFlag}.exe`;
-} else {
-  runnerName = 'NUnit.ConsoleRunner';
-  executable = 'nunit3-console.exe';
-}
-
-if (!project.determinePackageVersion(runnerName)) {
-  throw new Error(`Could not find installed test runner package '${runnerName}' of version ${semver} in project '${project.name}'`);
-}
-
-const runnerPath = `.\\packages\\${runnerName}.${semver.version}\\tools\\${executable}`;
-console.log(`Console runner path: ${runnerPath}`);
 ```
 
 ## Object Model

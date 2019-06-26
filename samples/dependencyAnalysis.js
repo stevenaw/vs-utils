@@ -1,11 +1,15 @@
 'use strict';
 
+const fs = require('fs');
 const path = require('path');
 const vsUtils = require('../src');
 
 const slnFile = path.join(__dirname, './TestConsoleApplication/TestConsoleApplication.sln');
+const dirRoot = path.dirname(slnFile);
 
-vsUtils.parseSolution(slnFile).then(solution => {
+const buffer = fs.readFileSync(slnFile);
+
+vsUtils.parseSolution(buffer, { dirRoot }).then(solution => {
   console.log('-------------------------------');
   console.log('Dependency analysis in Solution');
   console.log('-------------------------------');
