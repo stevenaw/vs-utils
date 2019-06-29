@@ -3,11 +3,10 @@
   "version": "0.0.6",
   "description": "Tools and utilities for working with Visual Studio projects",
   "repository": "stevenaw/vs-utils",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "test": "nyc mocha --timeout=3000",
-    "demo": "node samples/dependencyParsing",
+    "demo": "node samples",
     "preversion": "npm test",
     "build": "",
     "postversion": "git push && git push --tags"
@@ -17,23 +16,22 @@
     "csproj",
     "sln",
     "solution",
-    "parser"
+    "parser",
+    "utilities"
   ],
   "author": {
     "name": "Steven Weerdenburg"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "dependencies": {
-    "is-buffer": "^2.0.2",
-    "semver-utils": "^1.1.1",
-    "xml-parser": "^1.2.1"
+    "vs-parse": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.2.0",
-    "nyc": "^13.0.1"
+    "fs-extra": "^7.0.1",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.0"
   }
 }

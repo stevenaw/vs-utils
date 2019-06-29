@@ -1,3 +1,10 @@
 test/
+**/bin/
+**/obj/
+**/packages/
+**/.vs/
 .nyc_output
 .github
+.gitattributes
+*.yml
+samples
