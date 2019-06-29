@@ -9,7 +9,7 @@ parseSolution(file, opts);
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
-- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
+- **opts** - An options object (optional). For details see [`Parsing Options`](#parsing-options)
 
 #### Return value
 A `Promise` which resolves to a [`Solution`](#solution) object
@@ -22,7 +22,7 @@ parseSolutionSync(file, opts);
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
-- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
+- **opts** - An options object (optional). For details see [`Parsing Options`](#parsing-options)
 
 #### Return value
 A [`Solution`](#solution) object
@@ -35,7 +35,7 @@ parseProject(file, opts);
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
-- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
+- **opts** - An options object (optional). For details see [`Parsing Options`](#parsing-options)
 
 #### Return value
 A `Promise` which resolves to a [`Project`](#project) object
@@ -48,7 +48,7 @@ parseProjectSync(file, opts);
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
-- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
+- **opts** - An options object (optional). For details see [`Parsing Options`](#parsing-options)
 
 #### Return value
 A [`Project`](#project) object
@@ -56,12 +56,12 @@ A [`Project`](#project) object
 ## Parsing Options
 An `options` object can be passed to a parsing function to customize its behaviour.
 
-### deepParse
+#### deepParse
 `deepParse` - Specifying `true` will also read and parse all dependencies. Defaults to `false`.
 
 Example: A solution is dependent on its projects, while a project is dependent on its packages.
 
-### dirRoot
+#### dirRoot
 `dirRoot` - The root directory under which the solution or project lives. Defaults to `undefined`.
 
 Required when doing a deep parse of a solution or project from file contents or a buffer.
