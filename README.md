@@ -9,7 +9,7 @@ parseSolution(file, opts);
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
-- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
+- **opts** - An options object (optional). For details see [`Parsing Options`](#parsing-options)
 
 #### Return value
 A `Promise` which resolves to a [`Solution`](#solution) object
@@ -22,7 +22,7 @@ parseSolutionSync(file, opts);
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
-- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
+- **opts** - An options object (optional). For details see [`Parsing Options`](#parsing-options)
 
 #### Return value
 A [`Solution`](#solution) object
@@ -35,7 +35,7 @@ parseProject(file, opts);
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
-- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
+- **opts** - An options object (optional). For details see [`Parsing Options`](#parsing-options)
 
 #### Return value
 A `Promise` which resolves to a [`Project`](#project) object
@@ -48,7 +48,7 @@ parseProjectSync(file, opts);
 
 #### Arguments
 - **file** - Can be a path, file contents, or buffer
-- **opts** - An options object (optional). For details see [`Parser Options`](#parser-options)
+- **opts** - An options object (optional). For details see [`Parsing Options`](#parsing-options)
 
 #### Return value
 A [`Project`](#project) object
