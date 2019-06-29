@@ -54,13 +54,22 @@ parseProjectSync(file, opts);
 A [`Project`](#project) object
 
 ## Parsing Options
+An `options` object can be passed to a parsing function to customize its behaviour.
 
 ### deepParse
+`deepParse` - Specifying `true` will also read and parse all dependencies. Defaults to `false`.
+
+Example: A solution is dependent on its projects, while a project is dependent on its packages.
+
 ### dirRoot
+`dirRoot` - The root directory under which the solution or project lives. Defaults to `undefined`.
+
+Required when doing a deep parse of a solution or project from file contents or a buffer.
 
 
 ## Examples
 For a full list of samples and demos, see the [samples](./samples) folder.
+Alternately, clone the repository and run `npm run demo`.
 
 ### Parse solution from path and enumerate projects
 ```js

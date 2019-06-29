@@ -23,8 +23,29 @@ fs.readdir(currentDirectory, (err, files) => {
     return stats.isFile();
   }).map(file => path.parse(file).name);
 
-  const samplesToRun = requestedSample ? allSamples.filter(sample => sample == requestedSample) : allSamples;
-  samplesToRun.forEach(sample => {
-    require(`./${sample}`);
-  });
+  if (requestedSample) {
+    const samplesToRun = requestedSample == 'all' ? 
+                          allSamples :
+                          allSamples.filter(sample => sample == requestedSample);
+
+    if (!samplesToRun.length) {
+      console.log('Sample not found.');
+      promptForSpecifiedSample(allSamples);
+    } else {
+      samplesToRun.forEach(sample => {
+        require(`./${sample}`);
+      });
+    }
+  } else {
+    console.log('No sample chosen.');
+    promptForSpecifiedSample(allSamples);
+  }
 });
+
+const promptForSpecifiedSample = (samples) => {
+  console.log('Please run a sample in the format \'npm run demo {name}\'. Options are:');
+  samples.forEach(sample => {
+    console.log(`  ${sample}`);
+  });
+  console.log('Or run \'npm run demo all\' to run all');
+}

@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const vsUtils = require('../src');
+const vsUtils = require('../');
 
 const slnFile = path.join(__dirname, './TestConsoleApplication/TestConsoleApplication.sln');
 
