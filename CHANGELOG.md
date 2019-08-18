@@ -1,6 +1,10 @@
 # Change Log
 
-## [1.0.0](https://github.com/stevenaw/vs-parse/compare/v0.0.6...v1.0.0) (TBD)
+## [1.0.1](https://github.com/stevenaw/vs-utils/compare/v1.0.0...v1.0.1) (2019-08-18)
+- Update test modules to mitigate lodash vulnerability
+- Update vs-parse to latest
+
+## [1.0.0](https://github.com/stevenaw/vs-utils/compare/v0.0.6...v1.0.0) (2019-06-29)
 - BREAKING: Introduce new object model
   - `parseSolution` and `parseSolutionSync` now return an instance of a `Solution`
   - `parseProject` and `parseProjectSync` now return an instance of a `Project`

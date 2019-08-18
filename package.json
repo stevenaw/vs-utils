@@ -26,12 +26,12 @@
     "node": ">=8"
   },
   "dependencies": {
-    "vs-parse": "^1.2.0"
+    "vs-parse": "^1.2.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "fs-extra": "^7.0.1",
-    "mocha": "^6.1.4",
-    "nyc": "^14.1.0"
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1"
   }
 }
