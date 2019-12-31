@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.0.2](https://github.com/stevenaw/vs-utils/compare/v1.0.1...v1.0.2) (TBD)
+- Update vs-parse to latest
+
 ## [1.0.1](https://github.com/stevenaw/vs-utils/compare/v1.0.0...v1.0.1) (2019-08-18)
 - Update test modules to mitigate lodash vulnerability
 - Update vs-parse to latest
