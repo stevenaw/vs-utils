@@ -1,6 +1,6 @@
 {
   "name": "vs-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tools and utilities for working with Visual Studio projects",
   "repository": "stevenaw/vs-utils",
   "license": "MIT",
