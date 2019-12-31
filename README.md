@@ -1,4 +1,7 @@
 # vs-utils
+
+[![Azure Pipelines Build Status](https://dev.azure.com/sweerdenburg/vs-utils/_apis/build/status/stevenaw.vs-utils?branchName=master)](https://dev.azure.com/sweerdenburg/vs-utils/_build/latest?definitionId=3&branchName=master)
+
 Node-based read-only object model for parsing and reading Visual Studio projects/solutions.
 
 ## Parsing Functions
