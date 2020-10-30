@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.0.3](https://github.com/stevenaw/vs-utils/compare/v1.0.2...v1.0.3) (TBD)
+- Update vs-parse to latest
+- Update test dependencies
+
 ## [1.0.2](https://github.com/stevenaw/vs-utils/compare/v1.0.1...v1.0.2) (2019-12-31)
 - Update vs-parse to latest
 - Update test dependencies
